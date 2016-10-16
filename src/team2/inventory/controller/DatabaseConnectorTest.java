@@ -36,24 +36,28 @@ public class DatabaseConnectorTest {
 	 * @param args Not utilized. */
 	public static void main(String[] args) {
 		try {
-			System.out.println("All Barcodes:\n" + getBarcodesTest() + "\n");
-			System.out.println("All Companies:\n" + getCompaniesTest() + "\n");
-			System.out.println("All Items:\n" + getItemsTest() + "\n");
-			System.out.println("All Item Types:\n" + getItemTypesTest() + "\n");
-			System.out.println("All Locations:\n" + getLocationsTest() + "\n");
-			System.out.println("All Privileges:\n" + getPrivilegeTest() + "\n");
-			System.out.println("All Users:\n" + getUsersTest() + "\n");
+			Connection connection = DriverManager.getConnection(connectionString);
+			
+			System.out.println("All Barcodes:\n" + getBarcodesTest(connection) + "\n");
+			System.out.println("All Companies:\n" + getCompaniesTest(connection) + "\n");
+			System.out.println("All Items:\n" + getItemsTest(connection) + "\n");
+			System.out.println("All Item Types:\n" + getItemTypesTest(connection) + "\n");
+			System.out.println("All Locations:\n" + getLocationsTest(connection) + "\n");
+			System.out.println("All Privileges:\n" + getPrivilegeTest(connection) + "\n");
+			System.out.println("All Users:\n" + getUsersTest(connection) + "\n");
+			
+			connection.close();
 		} catch (SQLException e) {
 			System.err.println(e.getMessage());
 		}
 	}
 
 	/** Retrieves all barcodes on database in a map of ID-Barcode.
+	 * @param connection 
 	 * @return Map */
-	public static Map<Integer, Integer> getBarcodesTest() throws SQLException {
+	public static Map<Integer, Integer> getBarcodesTest(Connection connection) throws SQLException {
 		Map<Integer, Integer> result = new HashMap<Integer, Integer>();
 
-		Connection connection = DriverManager.getConnection(connectionString);
 		Statement stmt = connection.createStatement();
 		stmt.executeUpdate("SELECT * FROM `Barcode`");
 
@@ -63,17 +67,15 @@ public class DatabaseConnectorTest {
 		}
 
 		stmt.close();
-		connection.close();
-
 		return result;
 	}
 
 	/** Retrieves all companies on database in a map of ID-Company.
+	 * @param connection 
 	 * @return Map */
-	public static Map<Integer, Company> getCompaniesTest() throws SQLException {
+	public static Map<Integer, Company> getCompaniesTest(Connection connection) throws SQLException {
 		Map<Integer, Company> result = new HashMap<Integer, Company>();
 
-		Connection connection = DriverManager.getConnection(connectionString);
 		Statement stmt = connection.createStatement();
 		stmt.executeUpdate("SELECT * FROM `Company`");
 
@@ -84,17 +86,14 @@ public class DatabaseConnectorTest {
 		}
 
 		stmt.close();
-		connection.close();
-
 		return result;
 	}
 
 	/** Retrieves all items on database in a map of ID-Item.
 	 * @return Map */
-	public static Map<Integer, Item> getItemsTest() throws SQLException {
+	public static Map<Integer, Item> getItemsTest(Connection connection) throws SQLException {
 		Map<Integer, Item> result = new HashMap<Integer, Item>();
 
-		Connection connection = DriverManager.getConnection(connectionString);
 		Statement stmt = connection.createStatement();
 		stmt.executeUpdate("SELECT * FROM `Item`");
 
@@ -105,17 +104,14 @@ public class DatabaseConnectorTest {
 		}
 
 		stmt.close();
-		connection.close();
-
 		return result;
 	}
 
 	/** Retrieves all item types on database in a map of ID-ItemType.
 	 * @return Map */
-	public static Map<Integer, String> getItemTypesTest() throws SQLException {
+	public static Map<Integer, String> getItemTypesTest(Connection connection) throws SQLException {
 		Map<Integer, String> result = new HashMap<Integer, String>();
 
-		Connection connection = DriverManager.getConnection(connectionString);
 		Statement stmt = connection.createStatement();
 		stmt.executeUpdate("SELECT * FROM `ItemType`");
 
@@ -125,17 +121,14 @@ public class DatabaseConnectorTest {
 		}
 
 		stmt.close();
-		connection.close();
-
 		return result;
 	}
 
 	/** Retrieves all locations on database in a map of ID-Location.
 	 * @return Map */
-	public static Map<Integer, Location> getLocationsTest() throws SQLException {
+	public static Map<Integer, Location> getLocationsTest(Connection connection) throws SQLException {
 		Map<Integer, Location> result = new HashMap<Integer, Location>();
 
-		Connection connection = DriverManager.getConnection(connectionString);
 		Statement stmt = connection.createStatement();
 		stmt.executeUpdate("SELECT * FROM `Location`");
 
@@ -146,17 +139,14 @@ public class DatabaseConnectorTest {
 		}
 
 		stmt.close();
-		connection.close();
-
 		return result;
 	}
 
 	/** Retrieves all privileges on database in a map of ID-Privilege.
 	 * @return Map */
-	public static Map<Integer, String> getPrivilegeTest() throws SQLException {
+	public static Map<Integer, String> getPrivilegeTest(Connection connection) throws SQLException {
 		Map<Integer, String> result = new HashMap<Integer, String>();
 
-		Connection connection = DriverManager.getConnection(connectionString);
 		Statement stmt = connection.createStatement();
 		stmt.executeUpdate("SELECT * FROM `Privilege`");
 
@@ -166,17 +156,14 @@ public class DatabaseConnectorTest {
 		}
 
 		stmt.close();
-		connection.close();
-
 		return result;
 	}
 
 	/** Retrieves all users on database in a map of ID-User.
 	 * @return Map */
-	public static Map<Integer, User> getUsersTest() throws SQLException {
+	public static Map<Integer, User> getUsersTest(Connection connection) throws SQLException {
 		Map<Integer, User> result = new HashMap<Integer, User>();
 
-		Connection connection = DriverManager.getConnection(connectionString);
 		Statement stmt = connection.createStatement();
 		stmt.executeUpdate("SELECT * FROM `User`");
 
@@ -187,8 +174,6 @@ public class DatabaseConnectorTest {
 		}
 
 		stmt.close();
-		connection.close();
-
 		return result;
 	}
 }
