@@ -46,7 +46,8 @@ public class DatabaseConnectorTest {
 	}
 
 	/** Retrieves all barcodes on database in a map of ID-Barcode.
-	 * @param connection 
+	 * @param connection Database connection.
+	 * @throws SQLException Thrown on any SQL Error.
 	 * @return Map */
 	public static Map<Integer, Integer> getBarcodesTest(Connection connection) throws SQLException {
 		Map<Integer, Integer> result = new HashMap<Integer, Integer>();
@@ -64,7 +65,8 @@ public class DatabaseConnectorTest {
 	}
 
 	/** Retrieves all companies on database in a map of ID-Company.
-	 * @param connection 
+	 * @param connection Database connection. 
+	 * @throws SQLException Thrown on any SQL Error.
 	 * @return Map */
 	public static Map<Integer, Company> getCompaniesTest(Connection connection) throws SQLException {
 		Map<Integer, Company> result = new HashMap<Integer, Company>();
@@ -83,6 +85,8 @@ public class DatabaseConnectorTest {
 	}
 
 	/** Retrieves all items on database in a map of ID-Item.
+	 * @param connection Database connection.
+	 * @throws SQLException Thrown on any SQL Error.
 	 * @return Map */
 	public static Map<Integer, Item> getItemsTest(Connection connection) throws SQLException {
 		Map<Integer, Item> result = new HashMap<Integer, Item>();
@@ -101,6 +105,8 @@ public class DatabaseConnectorTest {
 	}
 
 	/** Retrieves all item types on database in a map of ID-ItemType.
+	 * @param connection Database connection.
+	 * @throws SQLException Thrown on any SQL Error.
 	 * @return Map */
 	public static Map<Integer, String> getItemTypesTest(Connection connection) throws SQLException {
 		Map<Integer, String> result = new HashMap<Integer, String>();
@@ -118,6 +124,8 @@ public class DatabaseConnectorTest {
 	}
 
 	/** Retrieves all locations on database in a map of ID-Location.
+	 * @param connection Database connection.
+	 * @throws SQLException Thrown on any SQL Error.
 	 * @return Map */
 	public static Map<Integer, Location> getLocationsTest(Connection connection) throws SQLException {
 		Map<Integer, Location> result = new HashMap<Integer, Location>();
@@ -136,6 +144,8 @@ public class DatabaseConnectorTest {
 	}
 
 	/** Retrieves all privileges on database in a map of ID-Privilege.
+	 * @param connection Database connection.
+	 * @throws SQLException Thrown on any SQL Error.
 	 * @return Map */
 	public static Map<Integer, String> getPrivilegeTest(Connection connection) throws SQLException {
 		Map<Integer, String> result = new HashMap<Integer, String>();
@@ -153,6 +163,8 @@ public class DatabaseConnectorTest {
 	}
 
 	/** Retrieves all users on database in a map of ID-User.
+	 * @param connection Database connection.
+	 * @throws SQLException Thrown on any SQL Error.
 	 * @return Map */
 	public static Map<Integer, User> getUsersTest(Connection connection) throws SQLException {
 		Map<Integer, User> result = new HashMap<Integer, User>();
