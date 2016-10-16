@@ -22,20 +22,13 @@ public class DatabaseConnectorTest {
 	private static String hostname = "warehouse.jdweb.info";
 	/** Database port. */
 	private static String port = "3306";
-	/** Working database name. */
-	private static String database = "";
-	/** Database user. */
-	private static String user = "";
-	/** Database password. */
-	private static String password = "";
-
-	/** Generated database string for connection. */
-	private static String connectionString = prefix + hostname + ":" + port + "/" + database + "?user=" + user + "&password=" + password;
 
 	/** Testing all tables in database.
 	 * @param args Not utilized. */
 	public static void main(String[] args) {
 		try {
+			String connectionString = prefix + hostname + ":" + port + "/" + args[0] + "?user=" + args[1] + "&password=" + args[2];
+			
 			Connection connection = DriverManager.getConnection(connectionString);
 			
 			System.out.println("All Barcodes:\n" + getBarcodesTest(connection) + "\n");
