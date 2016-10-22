@@ -27,9 +27,7 @@ public class DatabaseConnectorTest {
 	 * @param args Not utilized. */
 	public static void main(String[] args) {
 		try {
-			String connectionString = prefix + hostname + ":" + port + "/" + args[0] + "?user=" + args[1] + "&password=" + args[2];
-			
-			Connection connection = DriverManager.getConnection(connectionString);
+			Connection connection = createConnection(args[0], args[1], args[2]);
 			
 			System.out.println("All Barcodes:\n" + getBarcodesTest(connection) + "\n");
 			System.out.println("All Companies:\n" + getCompaniesTest(connection) + "\n");
@@ -43,6 +41,11 @@ public class DatabaseConnectorTest {
 		} catch (SQLException e) {
 			System.err.println(e.getMessage());
 		}
+	}
+	
+	public static Connection createConnection(String table, String username, String password) throws SQLException {
+		String connectionString = prefix + hostname + ":" + port + "/" + table + "?user=" + username + "&password=" + password;
+		return DriverManager.getConnection(connectionString);
 	}
 
 	/** Retrieves all barcodes on database in a map of ID-Barcode.
