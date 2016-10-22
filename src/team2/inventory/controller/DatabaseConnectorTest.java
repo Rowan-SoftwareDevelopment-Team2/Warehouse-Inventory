@@ -49,15 +49,15 @@ public class DatabaseConnectorTest {
 	 * @param connection Database connection.
 	 * @throws SQLException Thrown on any SQL Error.
 	 * @return Map */
-	public static Map<Integer, Integer> getBarcodesTest(Connection connection) throws SQLException {
-		Map<Integer, Integer> result = new HashMap<Integer, Integer>();
+	public static Map<Integer, String> getBarcodesTest(Connection connection) throws SQLException {
+		Map<Integer, String> result = new HashMap<Integer, String>();
 
 		Statement stmt = connection.createStatement();
 		stmt.executeUpdate("SELECT * FROM `Barcode`");
 
 		while(stmt.getResultSet().next()) {
 			ResultSet resultSet = stmt.getResultSet();
-			result.put(resultSet.getInt(1), resultSet.getInt(2));
+			result.put(resultSet.getInt(1), resultSet.getString(2));
 		}
 
 		stmt.close();
