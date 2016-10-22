@@ -8,6 +8,7 @@ import java.util.Map;
 
 import team2.inventory.model.Barcode;
 import team2.inventory.model.Company;
+import team2.inventory.model.Inventory;
 import team2.inventory.model.Item;
 import team2.inventory.model.Location;
 import team2.inventory.model.User;
@@ -59,13 +60,13 @@ public class DatabaseQuery {
 	
 	/** Retrieves all barcodes on database in a map of ID-to-Barcode.
 	 * @param connection Database connection.
-	 * @param id ID to search for.
+	 * @param barcodeSearch Barcode to search for.
 	 * @throws SQLException Thrown on any SQL Error.
 	 * @return Map */
 	public static Map<Integer, Barcode> getBarcodesByBarcode(Connection connection, String barcodeSearch) throws SQLException {
 		Map<Integer, Barcode> result = new HashMap<Integer, Barcode>();
 
-		String sqlQuery = "SELECT * FROM `Barcode` WHERE `Barcode`.`Barcode`LIKE '%" + barcodeSearch + "%'";
+		String sqlQuery = "SELECT * FROM `Barcode` WHERE `Barcode`.`Barcode` LIKE '%" + barcodeSearch + "%'";
 		ResultSet resultSet = DatabaseConnector.getResultSet(connection, sqlQuery);
 
 		while(resultSet.next()) {
@@ -205,4 +206,25 @@ public class DatabaseQuery {
 
 		return result;
 	}
+	
+	/* -----------------------------
+	 *      Inventory Methods
+	 * ----------------------------- */
+	
+	public static Map<Integer, Inventory> getInventory(Connection connection) throws SQLException {
+		Map<Integer, Inventory> result = new HashMap<Integer, Inventory>();
+		
+		String sqlQuery = "SELECT * FROM `Inventory`";
+		ResultSet resultSet = DatabaseConnector.getResultSet(connection, sqlQuery);
+		
+		while(resultSet.next()) {
+			Inventory inventory = new Inventory(resultSet.getInt(1), resultSet.getInt(2), 
+					resultSet.getInt(3), resultSet.getInt(4), resultSet.getInt(5), 
+					resultSet.getInt(6), resultSet.getDate(7), resultSet.getDate(8), 
+					resultSet.getInt(9), resultSet.getInt(10));
+			result.put(resultSet.getInt(1), inventory);
+		}
+		return result;
+	}
+	
 }

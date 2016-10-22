@@ -16,12 +16,14 @@ public class DatabaseTestDriver {
 			
 			System.out.println(DatabaseQuery.getBarcodesByID(connection, 1));
 			System.out.println(DatabaseQuery.getBarcodesByBarcode(connection, "ABCDEFG"));
+			System.out.println(DatabaseQuery.getInventory(connection));
 			connection.close();
 		} catch (SQLException e) {
 			System.err.println(e.getMessage());
 		}
 	}
 	
+	@SuppressWarnings("unused")
 	private static void allTests(Connection connection) throws SQLException {
 		System.out.println("All Barcodes:\n" + DatabaseQuery.getBarcodes(connection) + "\n");
 		System.out.println("All Companies:\n" + DatabaseQuery.getCompanies(connection) + "\n");
