@@ -12,7 +12,7 @@ public class DatabaseTestDriver {
 	public static void main(String[] args) {
 		try {
 			Connection connection = DatabaseConnector.createConnection(args[0], args[1], args[2]);
-			//allTests(connection);
+			allTests(connection);
 			
 			System.out.println(DatabaseQuery.getBarcodesByID(connection, 1));
 			System.out.println(DatabaseQuery.getBarcodesByBarcode(connection, "ABCDEFG"));

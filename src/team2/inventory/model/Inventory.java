@@ -2,6 +2,8 @@ package team2.inventory.model;
 
 import java.sql.Date;
 
+/** Inventory class.
+ * @author James A. Donnell Jr. */
 public class Inventory {
 	private int id, item, amount, supplier, 
 		type, parent, location, barcode;
