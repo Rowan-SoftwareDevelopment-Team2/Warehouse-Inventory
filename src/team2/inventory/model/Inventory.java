@@ -6,9 +6,9 @@ import java.sql.Date;
  * @author James A. Donnell Jr. */
 public class Inventory {
 	private int id, item, amount, supplier, 
-		type, parent, location, barcode;
+	type, parent, location, barcode;
 	private Date shipped, received;
-	
+
 	/** Inventory 
 	 * @param id Inventory line item ID.
 	 * @param item Item of line item.
@@ -112,7 +112,7 @@ public class Inventory {
 	public void setReceived(Date received) {
 		this.received = received;
 	}
-	
+
 	public String toString() {
 		return "[" + id + ", " + item + ", " + amount + ", " + supplier + ", "
 				+ type + ", " + parent + ", " + received + ", " 

@@ -5,13 +5,13 @@ package team2.inventory.model;
 public class User {
 	
 	/** User Information. */
-	private int id, privelages;
+	private int id, privileges;
 	/** User Information. */
 	private String username, password, realname;
 
-	public User(int id, String username, String password, String realname, int privelages) {
+	public User(int id, String username, String password, String realname, int privilages) {
 		this.id = id;
-		this.privelages = privelages;
+		this.privileges = privilages;
 		this.username = username;
 		this.password = password;
 		this.realname = realname;
@@ -25,12 +25,12 @@ public class User {
 		this.id = id;
 	}
 
-	public int getPrivelages() {
-		return privelages;
+	public int getPrivileges() {
+		return privileges;
 	}
 
-	public void setPrivelages(int privelages) {
-		this.privelages = privelages;
+	public void setPrivileges(int privelages) {
+		this.privileges = privelages;
 	}
 
 	public String getUsername() {
@@ -58,6 +58,6 @@ public class User {
 	}
 	
 	public String toString() {
-		return "[" + username + ", " + password + ", " + realname + ", " + privelages + "]";
+		return "[" + username + ", " + password + ", " + realname + ", " + privileges + "]";
 	}
 }
