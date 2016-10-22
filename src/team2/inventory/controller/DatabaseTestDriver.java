@@ -12,11 +12,16 @@ public class DatabaseTestDriver {
 	public static void main(String[] args) {
 		try {
 			Connection connection = DatabaseConnector.createConnection(args[0], args[1], args[2]);
-			allTests(connection);
+			//allTests(connection);
 			
-			System.out.println(DatabaseQuery.getBarcodesByID(connection, 1));
+			System.out.println(DatabaseQuery.getBarcodeByID(connection, 1));
 			System.out.println(DatabaseQuery.getBarcodesByBarcode(connection, "ABCDEFG"));
-			System.out.println(DatabaseQuery.getInventory(connection));
+			System.out.println(DatabaseQuery.getCompanyByID(connection, 2));
+			System.out.println(DatabaseQuery.getItemByID(connection, 1));
+			System.out.println(DatabaseQuery.getLocationByID(connection, 1));
+			System.out.println(DatabaseQuery.getUserByID(connection, 2));
+			System.out.println(DatabaseQuery.getInventoryByID(connection, 1));
+			
 			connection.close();
 		} catch (SQLException e) {
 			System.err.println(e.getMessage());
@@ -32,5 +37,6 @@ public class DatabaseTestDriver {
 		System.out.println("All Locations:\n" + DatabaseQuery.getLocations(connection) + "\n");
 		System.out.println("All Privileges:\n" + DatabaseQuery.getPrivileges(connection) + "\n");
 		System.out.println("All Users:\n" + DatabaseQuery.getUsers(connection) + "\n");
+		System.out.println("All Inventory:\n" + DatabaseQuery.getInventory(connection));
 	}
 }
