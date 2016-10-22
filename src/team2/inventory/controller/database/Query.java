@@ -1,4 +1,4 @@
-package team2.inventory.controller;
+package team2.inventory.controller.database;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -14,7 +14,7 @@ import team2.inventory.model.User;
 
 /** Various query methods.
  * @author James A. Donnell Jr. */
-public class DatabaseQuery {
+public class Query {
 	
 	/* -----------------------------
 	 *        Barcode Methods
@@ -26,8 +26,8 @@ public class DatabaseQuery {
 	 * @return Map */
 	public static Map<Integer, Barcode> getBarcodes(Connection connection) throws SQLException {
 		String sqlQuery = "SELECT * FROM `Barcode`";
-		ResultSet resultSet = DatabaseConnector.getResultSet(connection, sqlQuery);
-		return DatabaseResultSetParser.toBarcodeMap(resultSet);
+		ResultSet resultSet = Connector.getResultSet(connection, sqlQuery);
+		return ResultSetParser.toBarcodeMap(resultSet);
 	}
 	
 	/** Retrieves all barcodes on database in a map of ID-to-Barcode.
@@ -37,8 +37,8 @@ public class DatabaseQuery {
 	 * @return Map */
 	public static Barcode getBarcodeByID(Connection connection, int id) throws SQLException {
 		String sqlQuery = "SELECT * FROM `Barcode` WHERE `Barcode`.`ID`=" + id;
-		ResultSet resultSet = DatabaseConnector.getResultSet(connection, sqlQuery);
-		return DatabaseResultSetParser.toBarcodeMap(resultSet).get(id);
+		ResultSet resultSet = Connector.getResultSet(connection, sqlQuery);
+		return ResultSetParser.toBarcodeMap(resultSet).get(id);
 	}
 	
 	/** Retrieves all barcodes on database in a map of ID-to-Barcode.
@@ -48,8 +48,8 @@ public class DatabaseQuery {
 	 * @return Map */
 	public static Map<Integer, Barcode> getBarcodesByBarcode(Connection connection, String barcodeSearch) throws SQLException {
 		String sqlQuery = "SELECT * FROM `Barcode` WHERE `Barcode`.`Barcode` LIKE '%" + barcodeSearch + "%'";
-		ResultSet resultSet = DatabaseConnector.getResultSet(connection, sqlQuery);
-		return DatabaseResultSetParser.toBarcodeMap(resultSet);
+		ResultSet resultSet = Connector.getResultSet(connection, sqlQuery);
+		return ResultSetParser.toBarcodeMap(resultSet);
 	}
 	
 	/* -----------------------------
@@ -62,8 +62,8 @@ public class DatabaseQuery {
 	 * @return Map */
 	public static Map<Integer, Company> getCompanies(Connection connection) throws SQLException {
 		String sqlQuery = "SELECT * FROM `Company`";
-		ResultSet resultSet = DatabaseConnector.getResultSet(connection, sqlQuery);
-		return DatabaseResultSetParser.toCompanyMap(resultSet);
+		ResultSet resultSet = Connector.getResultSet(connection, sqlQuery);
+		return ResultSetParser.toCompanyMap(resultSet);
 	}
 	
 	/** Retrieves all companies on database in a map of ID-to-Company.
@@ -73,8 +73,8 @@ public class DatabaseQuery {
 	 * @return Company */
 	public static Company getCompanyByID(Connection connection, int id) throws SQLException {
 		String sqlQuery = "SELECT * FROM `Company` WHERE `Company`.`ID`=" + id;
-		ResultSet resultSet = DatabaseConnector.getResultSet(connection, sqlQuery);
-		return DatabaseResultSetParser.toCompanyMap(resultSet).get(id);
+		ResultSet resultSet = Connector.getResultSet(connection, sqlQuery);
+		return ResultSetParser.toCompanyMap(resultSet).get(id);
 	}
 	
 	/* -----------------------------
@@ -87,8 +87,8 @@ public class DatabaseQuery {
 	 * @return Map */
 	public static Map<Integer, Item> getItems(Connection connection) throws SQLException {
 		String sqlQuery = "SELECT * FROM `Item`";
-		ResultSet resultSet = DatabaseConnector.getResultSet(connection, sqlQuery);
-		return DatabaseResultSetParser.toItemMap(resultSet);
+		ResultSet resultSet = Connector.getResultSet(connection, sqlQuery);
+		return ResultSetParser.toItemMap(resultSet);
 	}
 	
 	/** Retrieves all items on database in a map of ID-to-Item.
@@ -98,8 +98,8 @@ public class DatabaseQuery {
 	 * @return Map */
 	public static Item getItemByID(Connection connection, int id) throws SQLException {
 		String sqlQuery = "SELECT * FROM `Item` WHERE `Item`.`ID`=" + id;
-		ResultSet resultSet = DatabaseConnector.getResultSet(connection, sqlQuery);
-		return DatabaseResultSetParser.toItemMap(resultSet).get(id);
+		ResultSet resultSet = Connector.getResultSet(connection, sqlQuery);
+		return ResultSetParser.toItemMap(resultSet).get(id);
 	}
 	
 	/* -----------------------------
@@ -112,8 +112,8 @@ public class DatabaseQuery {
 	 * @return Map */
 	public static Map<Integer, String> getItemTypes(Connection connection) throws SQLException {
 		String sqlQuery = "SELECT * FROM `ItemType`";
-		ResultSet resultSet = DatabaseConnector.getResultSet(connection, sqlQuery);
-		return DatabaseResultSetParser.toItemTypeMap(resultSet);
+		ResultSet resultSet = Connector.getResultSet(connection, sqlQuery);
+		return ResultSetParser.toItemTypeMap(resultSet);
 	}
 	
 	/* -----------------------------
@@ -126,8 +126,8 @@ public class DatabaseQuery {
 	 * @return Map */
 	public static Map<Integer, Location> getLocations(Connection connection) throws SQLException {
 		String sqlQuery = "SELECT * FROM `Location`";
-		ResultSet resultSet = DatabaseConnector.getResultSet(connection, sqlQuery);
-		return DatabaseResultSetParser.toLocationMap(resultSet);
+		ResultSet resultSet = Connector.getResultSet(connection, sqlQuery);
+		return ResultSetParser.toLocationMap(resultSet);
 	}
 	
 	/** Retrieves all locations on database in a map of ID-to-Location.
@@ -137,8 +137,8 @@ public class DatabaseQuery {
 	 * @return Map */
 	public static Location getLocationByID(Connection connection, int id) throws SQLException {
 		String sqlQuery = "SELECT * FROM `Location` WHERE `Location`.`ID`=" + id;
-		ResultSet resultSet = DatabaseConnector.getResultSet(connection, sqlQuery);
-		return DatabaseResultSetParser.toLocationMap(resultSet).get(id);
+		ResultSet resultSet = Connector.getResultSet(connection, sqlQuery);
+		return ResultSetParser.toLocationMap(resultSet).get(id);
 	}
 	
 	/* -----------------------------
@@ -151,8 +151,8 @@ public class DatabaseQuery {
 	 * @return Map */
 	public static Map<Integer, String> getPrivileges(Connection connection) throws SQLException {
 		String sqlQuery = "SELECT * FROM `Privilege`";
-		ResultSet resultSet = DatabaseConnector.getResultSet(connection, sqlQuery);
-		return DatabaseResultSetParser.toPrivilegesMap(resultSet);
+		ResultSet resultSet = Connector.getResultSet(connection, sqlQuery);
+		return ResultSetParser.toPrivilegesMap(resultSet);
 	}
 	
 	/* -----------------------------
@@ -165,8 +165,8 @@ public class DatabaseQuery {
 	 * @return Map */
 	public static Map<Integer, User> getUsers(Connection connection) throws SQLException {
 		String sqlQuery = "SELECT * FROM `User`";
-		ResultSet resultSet = DatabaseConnector.getResultSet(connection, sqlQuery);
-		return DatabaseResultSetParser.toUserMap(resultSet);
+		ResultSet resultSet = Connector.getResultSet(connection, sqlQuery);
+		return ResultSetParser.toUserMap(resultSet);
 	}
 	
 	/** Retrieves all users on database in a map of ID-to-User.
@@ -176,8 +176,8 @@ public class DatabaseQuery {
 	 * @return Map */
 	public static User getUserByID(Connection connection, int id) throws SQLException {
 		String sqlQuery = "SELECT * FROM `User` WHERE `User`.`ID`=" + id;
-		ResultSet resultSet = DatabaseConnector.getResultSet(connection, sqlQuery);
-		return DatabaseResultSetParser.toUserMap(resultSet).get(id);
+		ResultSet resultSet = Connector.getResultSet(connection, sqlQuery);
+		return ResultSetParser.toUserMap(resultSet).get(id);
 	}
 	
 	/* -----------------------------
@@ -186,13 +186,13 @@ public class DatabaseQuery {
 	
 	public static Map<Integer, Inventory> getInventory(Connection connection) throws SQLException {
 		String sqlQuery = "SELECT * FROM `Inventory`";
-		ResultSet resultSet = DatabaseConnector.getResultSet(connection, sqlQuery);
-		return DatabaseResultSetParser.toInventoryMap(resultSet);
+		ResultSet resultSet = Connector.getResultSet(connection, sqlQuery);
+		return ResultSetParser.toInventoryMap(resultSet);
 	}
 	
 	public static Inventory getInventoryByID(Connection connection, int id) throws SQLException {
 		String sqlQuery = "SELECT * FROM `Inventory` WHERE `Inventory`.`ID`=" + id;
-		ResultSet resultSet = DatabaseConnector.getResultSet(connection, sqlQuery);
-		return DatabaseResultSetParser.toInventoryMap(resultSet).get(id);
+		ResultSet resultSet = Connector.getResultSet(connection, sqlQuery);
+		return ResultSetParser.toInventoryMap(resultSet).get(id);
 	}
 }

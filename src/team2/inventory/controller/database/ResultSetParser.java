@@ -1,4 +1,4 @@
-package team2.inventory.controller;
+package team2.inventory.controller.database;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,7 +14,7 @@ import team2.inventory.model.User;
 
 /** Database ResultSet Parser.
  * @author James A. Donnell Jr. */
-public class DatabaseResultSetParser {
+public class ResultSetParser {
 
 	public static Map<Integer, Barcode> toBarcodeMap(ResultSet resultSet) throws SQLException {
 		Map<Integer, Barcode> result = new HashMap<Integer, Barcode>();

@@ -1,4 +1,4 @@
-package team2.inventory.controller;
+package team2.inventory.controller.database;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -7,7 +7,7 @@ import java.sql.Statement;
 
 /** Database connector. By default utilizes MariaDB.
  * @author James A. Donnell Jr. */
-public class DatabaseConnector {
+public class Connector {
 
 	/** MariaDB JDBC database prefix. */
 	private static String prefix = "jdbc:mariadb://";

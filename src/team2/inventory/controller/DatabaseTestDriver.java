@@ -3,6 +3,9 @@ package team2.inventory.controller;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import team2.inventory.controller.database.Connector;
+import team2.inventory.controller.database.Query;
+
 /** Database testing driver.
  * @author James A. Donnell Jr. */
 public class DatabaseTestDriver {
@@ -11,16 +14,16 @@ public class DatabaseTestDriver {
 	 * @param args Database table, username and password on seperate lines. */
 	public static void main(String[] args) {
 		try {
-			Connection connection = DatabaseConnector.createConnection(args[0], args[1], args[2]);
+			Connection connection = Connector.createConnection(args[0], args[1], args[2]);
 			//allTests(connection);
 			
-			System.out.println(DatabaseQuery.getBarcodeByID(connection, 1));
-			System.out.println(DatabaseQuery.getBarcodesByBarcode(connection, "ABCDEFG"));
-			System.out.println(DatabaseQuery.getCompanyByID(connection, 2));
-			System.out.println(DatabaseQuery.getItemByID(connection, 1));
-			System.out.println(DatabaseQuery.getLocationByID(connection, 1));
-			System.out.println(DatabaseQuery.getUserByID(connection, 2));
-			System.out.println(DatabaseQuery.getInventoryByID(connection, 1));
+			System.out.println(Query.getBarcodeByID(connection, 1));
+			System.out.println(Query.getBarcodesByBarcode(connection, "ABCDEFG"));
+			System.out.println(Query.getCompanyByID(connection, 2));
+			System.out.println(Query.getItemByID(connection, 1));
+			System.out.println(Query.getLocationByID(connection, 1));
+			System.out.println(Query.getUserByID(connection, 2));
+			System.out.println(Query.getInventoryByID(connection, 1));
 			
 			connection.close();
 		} catch (SQLException e) {
@@ -30,13 +33,13 @@ public class DatabaseTestDriver {
 	
 	@SuppressWarnings("unused")
 	private static void allTests(Connection connection) throws SQLException {
-		System.out.println("All Barcodes:\n" + DatabaseQuery.getBarcodes(connection) + "\n");
-		System.out.println("All Companies:\n" + DatabaseQuery.getCompanies(connection) + "\n");
-		System.out.println("All Items:\n" + DatabaseQuery.getItems(connection) + "\n");
-		System.out.println("All Item Types:\n" + DatabaseQuery.getItemTypes(connection) + "\n");
-		System.out.println("All Locations:\n" + DatabaseQuery.getLocations(connection) + "\n");
-		System.out.println("All Privileges:\n" + DatabaseQuery.getPrivileges(connection) + "\n");
-		System.out.println("All Users:\n" + DatabaseQuery.getUsers(connection) + "\n");
-		System.out.println("All Inventory:\n" + DatabaseQuery.getInventory(connection));
+		System.out.println("All Barcodes:\n" + Query.getBarcodes(connection) + "\n");
+		System.out.println("All Companies:\n" + Query.getCompanies(connection) + "\n");
+		System.out.println("All Items:\n" + Query.getItems(connection) + "\n");
+		System.out.println("All Item Types:\n" + Query.getItemTypes(connection) + "\n");
+		System.out.println("All Locations:\n" + Query.getLocations(connection) + "\n");
+		System.out.println("All Privileges:\n" + Query.getPrivileges(connection) + "\n");
+		System.out.println("All Users:\n" + Query.getUsers(connection) + "\n");
+		System.out.println("All Inventory:\n" + Query.getInventory(connection));
 	}
 }
