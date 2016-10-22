@@ -21,8 +21,7 @@ public class DatabaseConnector {
 	 * @param username Database username.
 	 * @param password Database password.
 	 * @return Connection
-	 * @throws SQLException Error if issues with connection.
-	 */
+	 * @throws SQLException Error if issues with connection. */
 	public static Connection createConnection(String table, String username, String password) throws SQLException {
 		String connectionString = prefix + hostname + ":" + port + "/" + table + "?user=" + username + "&password=" + password;
 		return DriverManager.getConnection(connectionString);
@@ -32,8 +31,7 @@ public class DatabaseConnector {
 	 * @param connection Connection to generate SQL statements on.
 	 * @param sqlQuery SQL statement/query to perform.
 	 * @return ResultSet
-	 * @throws SQLException Error on SQLException.
-	 */
+	 * @throws SQLException Error on SQLException. */
 	public static ResultSet getResultSet(Connection connection, String sqlQuery) throws SQLException {
 		Statement statement = connection.createStatement();
 		ResultSet result = statement.executeQuery(sqlQuery);

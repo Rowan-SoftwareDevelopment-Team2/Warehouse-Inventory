@@ -15,6 +15,10 @@ import team2.inventory.model.User;
 /** Various query methods.
  * @author James A. Donnell Jr. */
 public class DatabaseQuery {
+	
+	/* -----------------------------
+	 *        Barcode Methods
+	 * ----------------------------- */
 
 	/** Retrieves all barcodes on database in a map of ID-Barcode.
 	 * @param connection Database connection.
@@ -33,6 +37,10 @@ public class DatabaseQuery {
 
 		return result;
 	}
+	
+	/* -----------------------------
+	 *        Company Methods
+	 * ----------------------------- */
 
 	/** Retrieves all companies on database in a map of ID-Company.
 	 * @param connection Database connection. 
@@ -51,6 +59,10 @@ public class DatabaseQuery {
 
 		return result;
 	}
+	
+	/* -----------------------------
+	 *         Item Methods
+	 * ----------------------------- */
 
 	/** Retrieves all items on database in a map of ID-Item.
 	 * @param connection Database connection.
@@ -69,6 +81,10 @@ public class DatabaseQuery {
 
 		return result;
 	}
+	
+	/* -----------------------------
+	 *        ItemType Methods
+	 * ----------------------------- */
 
 	/** Retrieves all item types on database in a map of ID-ItemType.
 	 * @param connection Database connection.
@@ -86,6 +102,10 @@ public class DatabaseQuery {
 
 		return result;
 	}
+	
+	/* -----------------------------
+	 *      Location Methods
+	 * ----------------------------- */
 
 	/** Retrieves all locations on database in a map of ID-Location.
 	 * @param connection Database connection.
@@ -104,6 +124,10 @@ public class DatabaseQuery {
 
 		return result;
 	}
+	
+	/* -----------------------------
+	 *      Privileges Methods
+	 * ----------------------------- */
 
 	/** Retrieves all privileges on database in a map of ID-Privilege.
 	 * @param connection Database connection.
@@ -121,6 +145,10 @@ public class DatabaseQuery {
 
 		return result;
 	}
+	
+	/* -----------------------------
+	 *          User Methods
+	 * ----------------------------- */
 
 	/** Retrieves all users on database in a map of ID-User.
 	 * @param connection Database connection.
