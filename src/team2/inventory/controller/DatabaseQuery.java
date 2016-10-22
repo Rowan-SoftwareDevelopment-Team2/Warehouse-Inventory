@@ -20,7 +20,7 @@ public class DatabaseQuery {
 	 *        Barcode Methods
 	 * ----------------------------- */
 
-	/** Retrieves all barcodes on database in a map of ID-Barcode.
+	/** Retrieves all barcodes on database in a map of ID-to-Barcode.
 	 * @param connection Database connection.
 	 * @throws SQLException Thrown on any SQL Error.
 	 * @return Map */
@@ -38,11 +38,49 @@ public class DatabaseQuery {
 		return result;
 	}
 	
+	/** Retrieves all barcodes on database in a map of ID-to-Barcode.
+	 * @param connection Database connection.
+	 * @param id ID to search for.
+	 * @throws SQLException Thrown on any SQL Error.
+	 * @return Map */
+	public static Map<Integer, Barcode> getBarcodesByID(Connection connection, int id) throws SQLException {
+		Map<Integer, Barcode> result = new HashMap<Integer, Barcode>();
+
+		String sqlQuery = "SELECT * FROM `Barcode` WHERE `Barcode`.`ID`=" + id;
+		ResultSet resultSet = DatabaseConnector.getResultSet(connection, sqlQuery);
+
+		while(resultSet.next()) {
+			Barcode barcode = new Barcode(resultSet.getInt(1), resultSet.getString(2));
+			result.put(resultSet.getInt(1), barcode);
+		}
+
+		return result;
+	}
+	
+	/** Retrieves all barcodes on database in a map of ID-to-Barcode.
+	 * @param connection Database connection.
+	 * @param id ID to search for.
+	 * @throws SQLException Thrown on any SQL Error.
+	 * @return Map */
+	public static Map<Integer, Barcode> getBarcodesByBarcode(Connection connection, String barcodeSearch) throws SQLException {
+		Map<Integer, Barcode> result = new HashMap<Integer, Barcode>();
+
+		String sqlQuery = "SELECT * FROM `Barcode` WHERE `Barcode`.`Barcode`LIKE '%" + barcodeSearch + "%'";
+		ResultSet resultSet = DatabaseConnector.getResultSet(connection, sqlQuery);
+
+		while(resultSet.next()) {
+			Barcode barcode = new Barcode(resultSet.getInt(1), resultSet.getString(2));
+			result.put(resultSet.getInt(1), barcode);
+		}
+
+		return result;
+	}
+	
 	/* -----------------------------
 	 *        Company Methods
 	 * ----------------------------- */
 
-	/** Retrieves all companies on database in a map of ID-Company.
+	/** Retrieves all companies on database in a map of ID-to-Company.
 	 * @param connection Database connection. 
 	 * @throws SQLException Thrown on any SQL Error.
 	 * @return Map */
@@ -64,7 +102,7 @@ public class DatabaseQuery {
 	 *         Item Methods
 	 * ----------------------------- */
 
-	/** Retrieves all items on database in a map of ID-Item.
+	/** Retrieves all items on database in a map of ID-to-Item.
 	 * @param connection Database connection.
 	 * @throws SQLException Thrown on any SQL Error.
 	 * @return Map */
@@ -86,7 +124,7 @@ public class DatabaseQuery {
 	 *        ItemType Methods
 	 * ----------------------------- */
 
-	/** Retrieves all item types on database in a map of ID-ItemType.
+	/** Retrieves all item types on database in a map of ID-to-ItemType.
 	 * @param connection Database connection.
 	 * @throws SQLException Thrown on any SQL Error.
 	 * @return Map */
@@ -107,7 +145,7 @@ public class DatabaseQuery {
 	 *      Location Methods
 	 * ----------------------------- */
 
-	/** Retrieves all locations on database in a map of ID-Location.
+	/** Retrieves all locations on database in a map of ID-to-Location.
 	 * @param connection Database connection.
 	 * @throws SQLException Thrown on any SQL Error.
 	 * @return Map */
@@ -129,7 +167,7 @@ public class DatabaseQuery {
 	 *      Privileges Methods
 	 * ----------------------------- */
 
-	/** Retrieves all privileges on database in a map of ID-Privilege.
+	/** Retrieves all privileges on database in a map of ID-to-Privilege.
 	 * @param connection Database connection.
 	 * @throws SQLException Thrown on any SQL Error.
 	 * @return Map */
@@ -150,7 +188,7 @@ public class DatabaseQuery {
 	 *          User Methods
 	 * ----------------------------- */
 
-	/** Retrieves all users on database in a map of ID-User.
+	/** Retrieves all users on database in a map of ID-to-User.
 	 * @param connection Database connection.
 	 * @throws SQLException Thrown on any SQL Error.
 	 * @return Map */
