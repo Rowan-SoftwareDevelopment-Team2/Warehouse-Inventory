@@ -48,6 +48,14 @@ public class DatabaseConnectorTest {
 		String connectionString = prefix + hostname + ":" + port + "/" + table + "?user=" + username + "&password=" + password;
 		return DriverManager.getConnection(connectionString);
 	}
+	
+	public static ResultSet getResultSet(Connection connection, String sqlQuery) throws SQLException {
+		Statement statement = connection.createStatement();
+		ResultSet result = statement.executeQuery(sqlQuery);
+		statement.close();
+		
+		return result;
+	}
 
 	/** Retrieves all barcodes on database in a map of ID-Barcode.
 	 * @param connection Database connection.
@@ -56,16 +64,14 @@ public class DatabaseConnectorTest {
 	public static Map<Integer, Barcode> getBarcodesTest(Connection connection) throws SQLException {
 		Map<Integer, Barcode> result = new HashMap<Integer, Barcode>();
 
-		Statement stmt = connection.createStatement();
-		stmt.executeUpdate("SELECT * FROM `Barcode`");
+		String sqlQuery = "SELECT * FROM `Barcode`";
+		ResultSet resultSet = getResultSet(connection, sqlQuery);
 
-		while(stmt.getResultSet().next()) {
-			ResultSet resultSet = stmt.getResultSet();
+		while(resultSet.next()) {
 			Barcode barcode = new Barcode(resultSet.getInt(1), resultSet.getString(2));
 			result.put(resultSet.getInt(1), barcode);
 		}
 
-		stmt.close();
 		return result;
 	}
 
@@ -76,16 +82,14 @@ public class DatabaseConnectorTest {
 	public static Map<Integer, Company> getCompaniesTest(Connection connection) throws SQLException {
 		Map<Integer, Company> result = new HashMap<Integer, Company>();
 
-		Statement stmt = connection.createStatement();
-		stmt.executeUpdate("SELECT * FROM `Company`");
-
-		while(stmt.getResultSet().next()) {
-			ResultSet resultSet = stmt.getResultSet();
+		String sqlQuery = "SELECT * FROM `Company`";
+		ResultSet resultSet = getResultSet(connection, sqlQuery);
+		
+		while(resultSet.next()) {
 			Company company = new Company(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4), resultSet.getString(5));
 			result.put(resultSet.getInt(1), company);
 		}
 
-		stmt.close();
 		return result;
 	}
 
@@ -96,16 +100,14 @@ public class DatabaseConnectorTest {
 	public static Map<Integer, Item> getItemsTest(Connection connection) throws SQLException {
 		Map<Integer, Item> result = new HashMap<Integer, Item>();
 
-		Statement stmt = connection.createStatement();
-		stmt.executeUpdate("SELECT * FROM `Item`");
+		String sqlQuery = "SELECT * FROM `Item`";
+		ResultSet resultSet = getResultSet(connection, sqlQuery);
 
-		while(stmt.getResultSet().next()) {
-			ResultSet resultSet = stmt.getResultSet();
+		while(resultSet.next()) {
 			Item item = new Item(resultSet.getInt(1), resultSet.getString(2), resultSet.getInt(3), resultSet.getInt(4), resultSet.getString(5));
 			result.put(resultSet.getInt(1), item);
 		}
-
-		stmt.close();
+		
 		return result;
 	}
 
@@ -116,15 +118,13 @@ public class DatabaseConnectorTest {
 	public static Map<Integer, String> getItemTypesTest(Connection connection) throws SQLException {
 		Map<Integer, String> result = new HashMap<Integer, String>();
 
-		Statement stmt = connection.createStatement();
-		stmt.executeUpdate("SELECT * FROM `ItemType`");
+		String sqlQuery = "SELECT * FROM `ItemType`";
+		ResultSet resultSet = getResultSet(connection, sqlQuery);
 
-		while(stmt.getResultSet().next()) {
-			ResultSet resultSet = stmt.getResultSet();
+		while(resultSet.next()) {
 			result.put(resultSet.getInt(1), resultSet.getString(2));
 		}
 
-		stmt.close();
 		return result;
 	}
 
@@ -135,16 +135,14 @@ public class DatabaseConnectorTest {
 	public static Map<Integer, Location> getLocationsTest(Connection connection) throws SQLException {
 		Map<Integer, Location> result = new HashMap<Integer, Location>();
 
-		Statement stmt = connection.createStatement();
-		stmt.executeUpdate("SELECT * FROM `Location`");
+		String sqlQuery = "SELECT * FROM `Location`";
+		ResultSet resultSet = getResultSet(connection, sqlQuery);
 
-		while(stmt.getResultSet().next()) {
-			ResultSet resultSet = stmt.getResultSet();
+		while(resultSet.next()) {
 			Location location = new Location(resultSet.getInt(1), resultSet.getString(2), resultSet.getInt(3), resultSet.getInt(4));
 			result.put(resultSet.getInt(1), location);
 		}
 
-		stmt.close();
 		return result;
 	}
 
@@ -155,15 +153,13 @@ public class DatabaseConnectorTest {
 	public static Map<Integer, String> getPrivilegeTest(Connection connection) throws SQLException {
 		Map<Integer, String> result = new HashMap<Integer, String>();
 
-		Statement stmt = connection.createStatement();
-		stmt.executeUpdate("SELECT * FROM `Privilege`");
+		String sqlQuery = "SELECT * FROM `Privilege`";
+		ResultSet resultSet = getResultSet(connection, sqlQuery);
 
-		while(stmt.getResultSet().next()) {
-			ResultSet resultSet = stmt.getResultSet();
+		while(resultSet.next()) {
 			result.put(resultSet.getInt(1), resultSet.getString(2));
 		}
 
-		stmt.close();
 		return result;
 	}
 
@@ -174,16 +170,14 @@ public class DatabaseConnectorTest {
 	public static Map<Integer, User> getUsersTest(Connection connection) throws SQLException {
 		Map<Integer, User> result = new HashMap<Integer, User>();
 
-		Statement stmt = connection.createStatement();
-		stmt.executeUpdate("SELECT * FROM `User`");
+		String sqlQuery = "SELECT * FROM `User`";
+		ResultSet resultSet = getResultSet(connection, sqlQuery);
 
-		while(stmt.getResultSet().next()) {
-			ResultSet resultSet = stmt.getResultSet();
+		while(resultSet.next()) {
 			User user = new User(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4), resultSet.getInt(5));
 			result.put(resultSet.getInt(1), user);
 		}
 
-		stmt.close();
 		return result;
 	}
 }
