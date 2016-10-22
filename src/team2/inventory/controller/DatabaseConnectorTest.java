@@ -7,6 +7,7 @@ import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Map;
 
+import team2.inventory.model.Barcode;
 import team2.inventory.model.Company;
 import team2.inventory.model.Item;
 import team2.inventory.model.Location;
@@ -52,15 +53,16 @@ public class DatabaseConnectorTest {
 	 * @param connection Database connection.
 	 * @throws SQLException Thrown on any SQL Error.
 	 * @return Map */
-	public static Map<Integer, String> getBarcodesTest(Connection connection) throws SQLException {
-		Map<Integer, String> result = new HashMap<Integer, String>();
+	public static Map<Integer, Barcode> getBarcodesTest(Connection connection) throws SQLException {
+		Map<Integer, Barcode> result = new HashMap<Integer, Barcode>();
 
 		Statement stmt = connection.createStatement();
 		stmt.executeUpdate("SELECT * FROM `Barcode`");
 
 		while(stmt.getResultSet().next()) {
 			ResultSet resultSet = stmt.getResultSet();
-			result.put(resultSet.getInt(1), resultSet.getString(2));
+			Barcode barcode = new Barcode(resultSet.getInt(1), resultSet.getString(2));
+			result.put(resultSet.getInt(1), barcode);
 		}
 
 		stmt.close();
