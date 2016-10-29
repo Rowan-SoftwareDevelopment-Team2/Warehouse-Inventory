@@ -41,26 +41,26 @@ public class Update {
 		Connector.getResultSet(connection, sqlQuery);
 	}
 
-	public static void updateInventory(Connection connection, Inventory inv) throws SQLException {
+	public static void updateInventory(Connection connection, Inventory inventory) throws SQLException {
 		String sql = "UPDATE `Inventory` SET `Item`=";
-		sql += (inv.getItem() == 0) ? "NULL" : "'" + inv.getItem() + "'";
+		sql += (inventory.getItem() == 0) ? "NULL" : "'" + inventory.getItem() + "'";
 		sql += ", `Amount`=";
-		sql += (inv.getAmount() == 0) ? "NULL" : "'" + inv.getAmount() + "'";
+		sql += (inventory.getAmount() == 0) ? "NULL" : "'" + inventory.getAmount() + "'";
 		sql += ", `Supplier`=";
-		sql += (inv.getSupplier() == 0) ? "NULL" : "'" + inv.getSupplier() + "'";
+		sql += (inventory.getSupplier() == 0) ? "NULL" : "'" + inventory.getSupplier() + "'";
 		sql += ", `Type`=";
-		sql += (inv.getType() == 0) ? "NULL" : "'" + inv.getType() + "'";
+		sql += (inventory.getType() == 0) ? "NULL" : "'" + inventory.getType() + "'";
 		sql += ", `Parent`=";
-		sql += (inv.getParent() == 0) ? "NULL" : "'" + inv.getParent() + "'";
+		sql += (inventory.getParent() == 0) ? "NULL" : "'" + inventory.getParent() + "'";
 		sql += ", `Received`=";
-		sql += (inv.getReceived() == null) ? "NULL" : "'" + inv.getReceived() + "'";
+		sql += (inventory.getReceived() == null) ? "NULL" : "'" + inventory.getReceived() + "'";
 		sql += ", `Shipped`=";
-		sql += (inv.getShipped() == null) ? "NULL" : "'" + inv.getShipped() + "'";
+		sql += (inventory.getShipped() == null) ? "NULL" : "'" + inventory.getShipped() + "'";
 		sql += ", `Location`=";
-		sql += (inv.getLocation() == 0) ? "NULL" : "'" + inv.getLocation() + "'";
+		sql += (inventory.getLocation() == 0) ? "NULL" : "'" + inventory.getLocation() + "'";
 		sql += ", `Barcode`=";
-		sql += (inv.getBarcode() == 0) ? "NULL" : "'" + inv.getBarcode() + "'";
-		sql += " WHERE `ID`=" + inv.getId();
+		sql += (inventory.getBarcode() == 0) ? "NULL" : "'" + inventory.getBarcode() + "'";
+		sql += " WHERE `ID`=" + inventory.getId();
 		Connector.getResultSet(connection, sql);
 	}
 }

@@ -4,7 +4,9 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 import team2.inventory.controller.database.Connector;
+import team2.inventory.controller.database.Insert;
 import team2.inventory.controller.database.Query;
+import team2.inventory.model.Item;
 
 /** Database testing driver.
  * @author James A. Donnell Jr. */
@@ -16,8 +18,11 @@ public class DatabaseTestDriver {
 		try {
 			Connection connection = Connector.createConnection(args[0], args[1], args[2]);
 			//allTests(connection);
-
-			System.out.println("All Inventory:\n" + Query.getInventory(connection) + "\n");
+			
+			Item item = new Item(0, "CD Player", 1, 1, "Cool 1970s style CD player");
+			System.out.println(item + "-->" + item.getId());
+			Insert.insertItem(connection, item);
+			System.out.println(item + "-->" + item.getId());
 			
 			connection.close();
 		} catch (SQLException e) {
@@ -34,13 +39,6 @@ public class DatabaseTestDriver {
 		System.out.println("All Locations:\n" + Query.getLocations(connection) + "\n");
 		System.out.println("All Privileges:\n" + Query.getPrivileges(connection) + "\n");
 		System.out.println("All Users:\n" + Query.getUsers(connection) + "\n");
-
-		System.out.println(Query.getBarcodeByID(connection, 1));
-		System.out.println(Query.getBarcodesByBarcode(connection, "ABCDEFG"));
-		System.out.println(Query.getCompanyByID(connection, 2));
-		System.out.println(Query.getItemByID(connection, 1));
-		System.out.println(Query.getLocationByID(connection, 1));
-		System.out.println(Query.getUserByID(connection, 2));
-		System.out.println(Query.getInventoryByID(connection, 1));
+		System.out.println("All Inventory:\n" + Query.getInventory(connection) + "\n");
 	}
 }

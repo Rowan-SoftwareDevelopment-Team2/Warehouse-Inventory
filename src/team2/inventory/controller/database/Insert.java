@@ -16,29 +16,34 @@ import team2.inventory.model.User;
  * 		- ID of class must be 0
  * @author James A. Donnell Jr. */
 public class Insert {
+	
+	private static String error = " with an ID cannot be inserted, utilize the Update class.";
 
 	public static void insertBarcode(Connection connection, Barcode barcode) throws SQLException {
 		if (barcode.getId() == 0) {
 			String sqlQuery = "INSERT INTO `Barcode` VALUES (NULL, '" + barcode.getBarcode() + "')";
 			Connector.getResultSet(connection, sqlQuery);
+			barcode.setId(Query.getBarcodeByBarcode(connection, barcode.getBarcode()).getId());
 		} else
-			throw new SQLException("Barcode with ID cannot be inserted, utilize the update class.");
+			throw new SQLException("Barcode" + error);
 	}
 
 	public static void insertCompany(Connection connection, Company company) throws SQLException {
 		if (company.getId() == 0) {
 			String sqlQuery = "INSERT INTO `Company` VALUES (NULL, '" + company.getName() + "', '" + company.getEmail() + "', '" + company.getPhone() + "', '" + company.getAddress() + "')";
 			Connector.getResultSet(connection, sqlQuery);
+			company.setId(Query.getCompanyLastInserted(connection).getId());
 		} else
-			throw new SQLException("Company with ID cannot be inserted, utilize the update class.");
+			throw new SQLException("Company" + error);
 	}
 	
 	public static void insertItem(Connection connection, Item item) throws SQLException {
 		if (item.getId() == 0) {
 			String sqlQuery = "INSERT INTO `Item` VALUES (NULL, '" + item.getName() + "', '" + item.getManufacturer() + "', '" + item.getBarcode() + "', '" + item.getDescription() + "')";
 			Connector.getResultSet(connection, sqlQuery);
+			item.setId(Query.getItemLastInserted(connection).getId());
 		} else
-			throw new SQLException("Item with ID cannot be inserted, utilize the update class.");
+			throw new SQLException("Item" + error);
 	}
 	
 	public static void insertLocation(Connection connection, Location location) throws SQLException {
@@ -46,7 +51,7 @@ public class Insert {
 			String sqlQuery = "INSERT INTO `Location` VALUES (NULL, '" + location.getDescription() + "', '" + location.getAisle() + "', '" + location.getRow() + "')";
 			Connector.getResultSet(connection, sqlQuery);
 		} else
-			throw new SQLException("Location with ID cannot be inserted, utilize the update class.");
+			throw new SQLException("Location" + error);
 	}
 	
 	public static void insertUser(Connection connection, User user) throws SQLException {
@@ -54,24 +59,24 @@ public class Insert {
 			String sqlQuery = "INSERT INTO `User` VALUES (NULL, '" + user.getUsername() + "', '" + user.getPassword() + "', '" + user.getRealname() + "', '" + user.getPrivileges() + "')";
 			Connector.getResultSet(connection, sqlQuery);
 		} else
-			throw new SQLException("User with ID cannot be inserted, utilize the update class.");
+			throw new SQLException("User" + error);
 	}
 	
-	public static void insertInventory(Connection connection, Inventory inv) throws SQLException {
-		if (inv.getId() == 0) {
+	public static void insertInventory(Connection connection, Inventory inventory) throws SQLException {
+		if (inventory.getId() == 0) {
 			String sqlQuery = "INSERT INTO `Inventory` VALUES (NULL, ";
-			sqlQuery += (inv.getItem() == 0) ? "NULL, " : "'" + inv.getItem() + "', ";
-			sqlQuery += (inv.getAmount() == 0) ? "NULL, " : "'" + inv.getAmount() + "', ";
-			sqlQuery += (inv.getSupplier() == 0) ? "NULL, " : "'" + inv.getSupplier() + "', ";
-			sqlQuery += (inv.getType() == 0) ? "NULL, " : "'" + inv.getType() + "', ";
-			sqlQuery += (inv.getParent() == 0) ? "NULL, " : "'" + inv.getParent() + "', ";
-			sqlQuery += (inv.getReceived() == null) ? "NULL, " : "'" + inv.getReceived() + "', ";
-			sqlQuery += (inv.getShipped() == null) ? "NULL, " : "'" + inv.getShipped() + "', ";
-			sqlQuery += (inv.getLocation() == 0) ? "NULL, " : "'" + inv.getLocation() + "', ";
-			sqlQuery += (inv.getBarcode() == 0) ? "NULL)" : "'" + inv.getBarcode() + "')";
+			sqlQuery += (inventory.getItem() == 0) ? "NULL, " : "'" + inventory.getItem() + "', ";
+			sqlQuery += (inventory.getAmount() == 0) ? "NULL, " : "'" + inventory.getAmount() + "', ";
+			sqlQuery += (inventory.getSupplier() == 0) ? "NULL, " : "'" + inventory.getSupplier() + "', ";
+			sqlQuery += (inventory.getType() == 0) ? "NULL, " : "'" + inventory.getType() + "', ";
+			sqlQuery += (inventory.getParent() == 0) ? "NULL, " : "'" + inventory.getParent() + "', ";
+			sqlQuery += (inventory.getReceived() == null) ? "NULL, " : "'" + inventory.getReceived() + "', ";
+			sqlQuery += (inventory.getShipped() == null) ? "NULL, " : "'" + inventory.getShipped() + "', ";
+			sqlQuery += (inventory.getLocation() == 0) ? "NULL, " : "'" + inventory.getLocation() + "', ";
+			sqlQuery += (inventory.getBarcode() == 0) ? "NULL)" : "'" + inventory.getBarcode() + "')";
 			Connector.getResultSet(connection, sqlQuery);
 		} else
-			throw new SQLException("Inventory with ID cannot be inserted, utilize the update class.");
+			throw new SQLException("Inventory" + error);
 	}
 
 }

@@ -30,15 +30,24 @@ public class Query {
 		return ResultSetParser.toBarcodeMap(resultSet);
 	}
 
-	/** Retrieves all barcodes on database in a map of ID-to-Barcode.
+	/** Retrieves a Barcode on database by ID.
 	 * @param connection Database connection.
 	 * @param id ID to search for.
 	 * @throws SQLException Thrown on any SQL Error.
-	 * @return Map */
+	 * @return Barcode */
 	public static Barcode getBarcodeByID(Connection connection, int id) throws SQLException {
 		String sqlQuery = "SELECT * FROM `Barcode` WHERE `Barcode`.`ID`=" + id;
 		ResultSet resultSet = Connector.getResultSet(connection, sqlQuery);
 		return ResultSetParser.toBarcodeMap(resultSet).get(id);
+	}
+	
+	/** Retrieves a Barcode on database by barcode string.
+	 * @param connection Database connection.
+	 * @param barcodeSearch Barcode to search for.
+	 * @throws SQLException Thrown on any SQL Error.
+	 * @return Barcode */
+	public static Barcode getBarcodeByBarcode(Connection connection, String barcodeSearch) throws SQLException {
+		return getBarcodesByBarcode(connection, barcodeSearch).values().iterator().next();
 	}
 
 	/** Retrieves all barcodes on database in a map of ID-to-Barcode.
@@ -66,15 +75,105 @@ public class Query {
 		return ResultSetParser.toCompanyMap(resultSet);
 	}
 
-	/** Retrieves all companies on database in a map of ID-to-Company.
+	/** Retrieves all companies on database with a specific Name in a map of ID-to-Company.
+	 * @param connection Database connection.
+	 * @param name Company name to search for.
+	 * @throws SQLException Thrown on any SQL Error.
+	 * @return Map */
+	public static Map<Integer, Company> getCompaniesByName(Connection connection, String name) throws SQLException {
+		String sqlQuery = "SELECT * FROM `Company` WHERE `Company`.`Name` LIKE '%" + name + "%'";
+		ResultSet resultSet = Connector.getResultSet(connection, sqlQuery);
+		return ResultSetParser.toCompanyMap(resultSet);
+	}
+	
+	/** Retrieves all companies on database with a specific Email in a map of ID-to-Company.
+	 * @param connection Database connection.
+	 * @param email Company email to search for.
+	 * @throws SQLException Thrown on any SQL Error.
+	 * @return Map */
+	public static Map<Integer, Company> getCompaniesByEmail(Connection connection, String email) throws SQLException {
+		String sqlQuery = "SELECT * FROM `Company` WHERE `Company`.`Email` LIKE '%" + email + "%'";
+		ResultSet resultSet = Connector.getResultSet(connection, sqlQuery);
+		return ResultSetParser.toCompanyMap(resultSet);
+	}
+	
+	/** Retrieves all companies on database with a specific Phone in a map of ID-to-Company.
+	 * @param connection Database connection.
+	 * @param phone Company phone to search for.
+	 * @throws SQLException Thrown on any SQL Error.
+	 * @return Map */
+	public static Map<Integer, Company> getCompaniesByPhone(Connection connection, String phone) throws SQLException {
+		String sqlQuery = "SELECT * FROM `Company` WHERE `Company`.`Phone` LIKE '%" + phone + "%'";
+		ResultSet resultSet = Connector.getResultSet(connection, sqlQuery);
+		return ResultSetParser.toCompanyMap(resultSet);
+	}
+	
+	/** Retrieves all companies on database with a specific Address in a map of ID-to-Company.
+	 * @param connection Database connection.
+	 * @param Address Company address to search for.
+	 * @throws SQLException Thrown on any SQL Error.
+	 * @return Map */
+	public static Map<Integer, Company> getCompaniesByAddress(Connection connection, String address) throws SQLException {
+		String sqlQuery = "SELECT * FROM `Company` WHERE `Company`.`Address` LIKE '%" + address + "%'";
+		ResultSet resultSet = Connector.getResultSet(connection, sqlQuery);
+		return ResultSetParser.toCompanyMap(resultSet);
+	}
+	
+	/** Retrieves a single Company on database based on ID.
 	 * @param connection Database connection. 
-	 * @param ID to search for.
+	 * @param id ID to search for.
 	 * @throws SQLException Thrown on any SQL Error.
 	 * @return Company */
 	public static Company getCompanyByID(Connection connection, int id) throws SQLException {
 		String sqlQuery = "SELECT * FROM `Company` WHERE `Company`.`ID`=" + id;
 		ResultSet resultSet = Connector.getResultSet(connection, sqlQuery);
 		return ResultSetParser.toCompanyMap(resultSet).get(id);
+	}
+	
+	/** Retrieves a single Company on database based on Name.
+	 * @param connection Database connection. 
+	 * @param name Company name to search for.
+	 * @throws SQLException Thrown on any SQL Error.
+	 * @return Company */
+	public static Company getCompanyByName(Connection connection, String name) throws SQLException {
+		return getCompaniesByName(connection, name).values().iterator().next();
+	}
+	
+	/** Retrieves a single Company on database based on E-mail.
+	 * @param connection Database connection. 
+	 * @param email Company e-mail to search for.
+	 * @throws SQLException Thrown on any SQL Error.
+	 * @return Company */
+	public static Company getCompanyByEmail(Connection connection, String email) throws SQLException {
+		return getCompaniesByEmail(connection, email).values().iterator().next();
+	}
+	
+	/** Retrieves a single Company on database based on Phone number.
+	 * @param connection Database connection. 
+	 * @param phone Company phone to search for.
+	 * @throws SQLException Thrown on any SQL Error.
+	 * @return Company */
+	public static Company getCompanyByPhone(Connection connection, String phone) throws SQLException {
+		return getCompaniesByPhone(connection, phone).values().iterator().next();
+	}
+	
+	/** Retrieves a single Company on database based on Address.
+	 * @param connection Database connection. 
+	 * @param address Company address to search for.
+	 * @throws SQLException Thrown on any SQL Error.
+	 * @return Company */
+	public static Company getCompanyByAddress(Connection connection, String address) throws SQLException {
+		return getCompaniesByAddress(connection, address).values().iterator().next();
+	}
+	
+	/** Retrieves the last Company inserted on database.
+	 * @param connection Database connection.
+	 * @throws SQLException Thrown on any SQL Error.
+	 * @return Company */
+	public static Company getCompanyLastInserted(Connection connection) throws SQLException {
+		String sqlQuery = "SELECT * FROM `Company` WHERE `Company`.`ID` = LAST_INSERT_ID()";
+		ResultSet resultSet = Connector.getResultSet(connection, sqlQuery);
+		return ResultSetParser.toCompanyMap(resultSet).values().iterator().next();
 	}
 
 	/* -----------------------------
@@ -90,10 +189,54 @@ public class Query {
 		ResultSet resultSet = Connector.getResultSet(connection, sqlQuery);
 		return ResultSetParser.toItemMap(resultSet);
 	}
-
-	/** Retrieves all items on database in a map of ID-to-Item.
+	
+	/** Retrieves all items on database with a specific Name in a map of ID-to-Item.
 	 * @param connection Database connection.
-	 * @param ID to search for.
+	 * @param name Item name to search for.
+	 * @throws SQLException Thrown on any SQL Error.
+	 * @return Map */
+	public static Map<Integer, Item> getItemsByName(Connection connection, String name) throws SQLException {
+		String sqlQuery = "SELECT * FROM `Item` WHERE `Item`.`Name` LIKE '%" + name + "%'";
+		ResultSet resultSet = Connector.getResultSet(connection, sqlQuery);
+		return ResultSetParser.toItemMap(resultSet);
+	}
+	
+	/** Retrieves all items on database with a specific Manufacturer in a map of ID-to-Item.
+	 * @param connection Database connection.
+	 * @param manufacturerID Manufacturer ID to search for.
+	 * @throws SQLException Thrown on any SQL Error.
+	 * @return Map */
+	public static Map<Integer, Item> getItemsByManufacturer(Connection connection, int manufacturerID) throws SQLException {
+		String sqlQuery = "SELECT * FROM `Item` WHERE `Item`.`Manufacturer`='" + manufacturerID + "'";
+		ResultSet resultSet = Connector.getResultSet(connection, sqlQuery);
+		return ResultSetParser.toItemMap(resultSet);
+	}
+	
+	/** Retrieves all items on database with a specific Barcode in a map of ID-to-Item.
+	 * @param connection Database connection.
+	 * @param barcodeID Barcode ID to search for.
+	 * @throws SQLException Thrown on any SQL Error.
+	 * @return Map */
+	public static Map<Integer, Item> getItemsByBarcode(Connection connection, int barcodeID) throws SQLException {
+		String sqlQuery = "SELECT * FROM `Item` WHERE `Item`.`Barcode`='" + barcodeID + "'";
+		ResultSet resultSet = Connector.getResultSet(connection, sqlQuery);
+		return ResultSetParser.toItemMap(resultSet);
+	}
+	
+	/** Retrieves all items on database with a specific Description in a map of ID-to-Item.
+	 * @param connection Database connection.
+	 * @param description Item description to search for.
+	 * @throws SQLException Thrown on any SQL Error.
+	 * @return Map */
+	public static Map<Integer, Item> getItemsByDescription(Connection connection, String description) throws SQLException {
+		String sqlQuery = "SELECT * FROM `Item` WHERE `Item`.`Description` LIKE '%" + description + "%'";
+		ResultSet resultSet = Connector.getResultSet(connection, sqlQuery);
+		return ResultSetParser.toItemMap(resultSet);
+	}
+
+	/** Retrieves a single item on database in a map of ID-to-Item based on ID.
+	 * @param connection Database connection.
+	 * @param id ID to search for.
 	 * @throws SQLException Thrown on any SQL Error.
 	 * @return Map */
 	public static Item getItemByID(Connection connection, int id) throws SQLException {
@@ -101,7 +244,35 @@ public class Query {
 		ResultSet resultSet = Connector.getResultSet(connection, sqlQuery);
 		return ResultSetParser.toItemMap(resultSet).get(id);
 	}
-
+	
+	/** Retrieves a single item on database in a map of ID-to-Item based on Name.
+	 * @param connection Database connection.
+	 * @param name Item name to search for.
+	 * @throws SQLException Thrown on any SQL Error.
+	 * @return Map */
+	public static Item getItemByName(Connection connection, String name) throws SQLException {
+		return getItemsByName(connection, name).values().iterator().next();
+	}
+	
+	/** Retrieves a single item on database in a map of ID-to-Item based on Description.
+	 * @param connection Database connection.
+	 * @param description Item description to search for.
+	 * @throws SQLException Thrown on any SQL Error.
+	 * @return Map */
+	public static Item getItemByDescription(Connection connection, String description) throws SQLException {
+		return getItemsByDescription(connection, description).values().iterator().next();
+	}
+	
+	/** Retrieves the last Item inserted on database.
+	 * @param connection Database connection.
+	 * @throws SQLException Thrown on any SQL Error.
+	 * @return Company */
+	public static Item getItemLastInserted(Connection connection) throws SQLException {
+		String sqlQuery = "SELECT * FROM `Item` WHERE `Item`.`ID` = LAST_INSERT_ID()";
+		ResultSet resultSet = Connector.getResultSet(connection, sqlQuery);
+		return ResultSetParser.toItemMap(resultSet).values().iterator().next();
+	}
+	
 	/* -----------------------------
 	 *        ItemType Methods
 	 * ----------------------------- */
