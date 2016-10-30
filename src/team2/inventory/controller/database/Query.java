@@ -1,6 +1,7 @@
 package team2.inventory.controller.database;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Map;
@@ -395,11 +396,11 @@ public class Query {
 	
 	/** Retrieves all users on database with a specific Privilege in a map of ID-to-User.
 	 * @param connection Database connection.
-	 * @param privilege User privilege to search for.
+	 * @param privilegeID User privilege to search for.
 	 * @throws SQLException Thrown on any SQL Error.
 	 * @return Map */
-	public static Map<Integer, User> getUsersByPrivilege(Connection connection, int privilege) throws SQLException {
-		String sqlQuery = "SELECT * FROM `User` WHERE `User`.`Privileges`=" + privilege;
+	public static Map<Integer, User> getUsersByPrivilege(Connection connection, int privilegeID) throws SQLException {
+		String sqlQuery = "SELECT * FROM `User` WHERE `User`.`Privileges`=" + privilegeID;
 		ResultSet resultSet = Connector.getResultSet(connection, sqlQuery);
 		return ResultSetParser.toUserMap(resultSet);
 	}
@@ -449,8 +450,55 @@ public class Query {
 	 *      Inventory Methods
 	 * ----------------------------- */
 
+	public static Map<Integer, Inventory> get(Connection connection) throws SQLException {
+		// TODO Return everything
+		return null;
+	}
+	
 	public static Map<Integer, Inventory> getInventory(Connection connection) throws SQLException {
 		String sqlQuery = "SELECT * FROM `Inventory`";
+		ResultSet resultSet = Connector.getResultSet(connection, sqlQuery);
+		return ResultSetParser.toInventoryMap(resultSet);
+	}
+	
+	public static Map<Integer, Inventory> getInventoryByItem(Connection connection, int itemID) throws SQLException {
+		String sqlQuery = "SELECT * FROM `Inventory` WHERE `Inventory`.`Item`=" + itemID;
+		ResultSet resultSet = Connector.getResultSet(connection, sqlQuery);
+		return ResultSetParser.toInventoryMap(resultSet);
+	}
+	
+	public static Map<Integer, Inventory> getInventoryBySupplier(Connection connection, int supplierID) throws SQLException {
+		String sqlQuery = "SELECT * FROM `Inventory` WHERE `Inventory`.`Supplier`=" + supplierID;
+		ResultSet resultSet = Connector.getResultSet(connection, sqlQuery);
+		return ResultSetParser.toInventoryMap(resultSet);
+	}
+	
+	public static Map<Integer, Inventory> getInventoryByItemType(Connection connection, int itemTypeID) throws SQLException {
+		String sqlQuery = "SELECT * FROM `Inventory` WHERE `Inventory`.`Type`=" + itemTypeID;
+		ResultSet resultSet = Connector.getResultSet(connection, sqlQuery);
+		return ResultSetParser.toInventoryMap(resultSet);
+	}
+	
+	public static Map<Integer, Inventory> getInventoryByParent(Connection connection, int parentID) throws SQLException {
+		String sqlQuery = "SELECT * FROM `Inventory` WHERE `Inventory`.`Parent`=" + parentID;
+		ResultSet resultSet = Connector.getResultSet(connection, sqlQuery);
+		return ResultSetParser.toInventoryMap(resultSet);
+	}
+	
+	public static Map<Integer, Inventory> getInventoryByReceived(Connection connection, Date received) throws SQLException {
+		String sqlQuery = "SELECT * FROM `Inventory` WHERE `Inventory`.`Received`='" + received + "'";
+		ResultSet resultSet = Connector.getResultSet(connection, sqlQuery);
+		return ResultSetParser.toInventoryMap(resultSet);
+	}
+	
+	public static Map<Integer, Inventory> getInventoryByShipped(Connection connection, Date shipped) throws SQLException {
+		String sqlQuery = "SELECT * FROM `Inventory` WHERE `Inventory`.`Shipped`='" + shipped + "'";
+		ResultSet resultSet = Connector.getResultSet(connection, sqlQuery);
+		return ResultSetParser.toInventoryMap(resultSet);
+	}
+	
+	public static Map<Integer, Inventory> getInventoryByBarcode(Connection connection, int barcodeID) throws SQLException {
+		String sqlQuery = "SELECT * FROM `Inventory` WHERE `Inventory`.`Barcode`=" + barcodeID;
 		ResultSet resultSet = Connector.getResultSet(connection, sqlQuery);
 		return ResultSetParser.toInventoryMap(resultSet);
 	}

@@ -1,11 +1,13 @@
 package team2.inventory.controller;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.SQLException;
 
 import team2.inventory.controller.database.Connector;
 import team2.inventory.controller.database.Insert;
 import team2.inventory.controller.database.Query;
+import team2.inventory.model.Inventory;
 import team2.inventory.model.User;
 
 /** Database testing driver.
@@ -18,11 +20,13 @@ public class DatabaseTestDriver {
 		try {
 			Connection connection = Connector.createConnection(args[0], args[1], args[2]);
 			//allTests(connection);
-						
-			User user = new User(0, "CoolKat100", "password", "Ana Katrina Pena Guerrero", 0);
-			System.out.println(user + "-->" + user.getId());
-			Insert.insert(connection, user);
-			System.out.println(user + "-->" + user.getId());
+			
+			System.out.println(Query.getInventoryByReceived(connection, Date.valueOf("2015-07-06")));
+			
+			Inventory inventory = new Inventory(0, 10, 20, 1, 1, 0, Date.valueOf("2015-07-06"), null, 4, 1);
+			System.out.println(inventory + "-->" + inventory.getId());
+			Insert.insert(connection, inventory);
+			System.out.println(inventory + "-->" + inventory.getId());
 			
 			connection.close();
 		} catch (SQLException e) {
