@@ -15,7 +15,7 @@ import team2.inventory.model.User;
  * 		- To be used only when duplicates are not currently in database
  * 		- ID of class must be 0
  * @author James A. Donnell Jr. */
-public class Insert {
+public class Inserter {
 
 	private static String customError = " with an ID cannot be inserted. Please use the Update class for updating or set the ID to 0 for inserting new data.";
 

@@ -10,38 +10,40 @@ import team2.inventory.model.Item;
 import team2.inventory.model.Location;
 import team2.inventory.model.User;
 
-public class Update {
+/** Database update methods.
+ * @author James A. Donnell Jr. */
+public class Updater {
 
-	public static void updateBarcode(Connection connection, Barcode barcode) throws SQLException {
+	public static void update(Connection connection, Barcode barcode) throws SQLException {
 		String sqlQuery = "UPDATE `Barcode` SET `Barcode`='" + barcode.getBarcode() + "' WHERE `ID`=" + barcode.getId();
 		Connector.getResultSet(connection, sqlQuery);
 	}
 
-	public static void updateCompany(Connection connection, Company company) throws SQLException {
+	public static void update(Connection connection, Company company) throws SQLException {
 		String sqlQuery = "UPDATE `Company` SET `Name`='" + company.getName() + "', `Email`='" + company.getEmail() 
 		+ "', `Phone`='" + company.getPhone() + "', `Address`='" + company.getAddress() + "' WHERE `ID`=" + company.getId();
 		Connector.getResultSet(connection, sqlQuery);
 	}
 
-	public static void updateItem(Connection connection, Item item) throws SQLException {
+	public static void update(Connection connection, Item item) throws SQLException {
 		String sqlQuery = "UPDATE `Item` SET `Name`='" + item.getName() + "', `Manufacturer`='" + item.getManufacturer().getId() 
 		+ "', `Barcode`='" + item.getBarcode().getId() + "', `Description`='" + item.getDescription() + "' WHERE `ID`=" + item.getId();
 		Connector.getResultSet(connection, sqlQuery);
 	}
 
-	public static void updateLocation(Connection connection, Location location) throws SQLException {
+	public static void update(Connection connection, Location location) throws SQLException {
 		String sqlQuery = "UPDATE `Location` SET `Description`='" + location.getDescription() + "', `Aisle`='" + location.getAisle() 
 		+ "', `Row`='" + location.getRow() + "' WHERE `ID`=" + location.getId();
 		Connector.getResultSet(connection, sqlQuery);
 	}
 
-	public static void updateUser(Connection connection, User user) throws SQLException {
+	public static void update(Connection connection, User user) throws SQLException {
 		String sqlQuery = "UPDATE `User` SET `Username`='" + user.getUsername() + "', `Password`='" + user.getPassword() 
 		+ "', `RealName`='" + user.getRealname() + "', `Privileges`='" + user.getPrivileges() + "' WHERE `ID`=" + user.getId();
 		Connector.getResultSet(connection, sqlQuery);
 	}
 
-	public static void updateInventory(Connection connection, Inventory inventory) throws SQLException {
+	public static void update(Connection connection, Inventory inventory) throws SQLException {
 		String sql = "UPDATE `Inventory` SET `Item`=";
 		sql += (inventory.getItem() == null) ? "NULL" : "'" + inventory.getItem().getId() + "'";
 		sql += ", `Amount`=";

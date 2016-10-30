@@ -13,7 +13,7 @@ import team2.inventory.model.Item;
 import team2.inventory.model.Location;
 import team2.inventory.model.User;
 
-/** Various query methods.
+/** Database query methods.
  * @author James A. Donnell Jr. */
 public class Query {
 
