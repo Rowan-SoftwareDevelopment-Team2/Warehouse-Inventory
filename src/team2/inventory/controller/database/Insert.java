@@ -59,6 +59,7 @@ public class Insert {
 		if (user.getId() == 0) {
 			String sqlQuery = "INSERT INTO `User` VALUES (NULL, '" + user.getUsername() + "', '" + user.getPassword() + "', '" + user.getRealname() + "', '" + user.getPrivileges() + "')";
 			Connector.getResultSet(connection, sqlQuery);
+			user.setId(Query.getUserLastInserted(connection).getId());
 		} else
 			throw new SQLException("User" + error);
 	}

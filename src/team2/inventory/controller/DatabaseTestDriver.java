@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import team2.inventory.controller.database.Connector;
 import team2.inventory.controller.database.Insert;
 import team2.inventory.controller.database.Query;
-import team2.inventory.model.Location;
+import team2.inventory.model.User;
 
 /** Database testing driver.
  * @author James A. Donnell Jr. */
@@ -18,11 +18,11 @@ public class DatabaseTestDriver {
 		try {
 			Connection connection = Connector.createConnection(args[0], args[1], args[2]);
 			//allTests(connection);
-			
-			Location location = new Location(0, "Aisle 7-Row 6", 7, 6);
-			System.out.println(location + "-->" + location.getId());
-			Insert.insertLocation(connection, location);
-			System.out.println(location + "-->" + location.getId());
+						
+			User user = new User(0, "CoolKat100", "password", "Ana Katrina Pena Guerrero", 0);
+			System.out.println(user + "-->" + user.getId());
+			Insert.insertUser(connection, user);
+			System.out.println(user + "-->" + user.getId());
 			
 			connection.close();
 		} catch (SQLException e) {

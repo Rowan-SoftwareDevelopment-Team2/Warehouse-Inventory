@@ -307,7 +307,7 @@ public class Query {
 	 * @throws SQLException Thrown on any SQL Error.
 	 * @return Map */
 	public static Map<Integer, Location> getLocationsByDescription(Connection connection, String description) throws SQLException {
-		String sqlQuery = "SELECT * FROM `Location` WHERE `Location`.`Description` LIKE '%" + description + "%'" ;
+		String sqlQuery = "SELECT * FROM `Location` WHERE `Location`.`Description` LIKE '%" + description + "%'";
 		ResultSet resultSet = Connector.getResultSet(connection, sqlQuery);
 		return ResultSetParser.toLocationMap(resultSet);
 	}
@@ -381,16 +381,68 @@ public class Query {
 		ResultSet resultSet = Connector.getResultSet(connection, sqlQuery);
 		return ResultSetParser.toUserMap(resultSet);
 	}
-
-	/** Retrieves all users on database in a map of ID-to-User.
+	
+	/** Retrieves all users on database with a specific Real Name in a map of ID-to-User.
 	 * @param connection Database connection.
-	 * @param ID to search for.
+	 * @param realName User real name to search for.
 	 * @throws SQLException Thrown on any SQL Error.
 	 * @return Map */
+	public static Map<Integer, User> getUsersByRealName(Connection connection, String realName) throws SQLException {
+		String sqlQuery = "SELECT * FROM `User` WHERE `User`.`RealName` LIKE '%" + realName + "%'";
+		ResultSet resultSet = Connector.getResultSet(connection, sqlQuery);
+		return ResultSetParser.toUserMap(resultSet);
+	}
+	
+	/** Retrieves all users on database with a specific Privilege in a map of ID-to-User.
+	 * @param connection Database connection.
+	 * @param privilege User privilege to search for.
+	 * @throws SQLException Thrown on any SQL Error.
+	 * @return Map */
+	public static Map<Integer, User> getUsersByPrivilege(Connection connection, int privilege) throws SQLException {
+		String sqlQuery = "SELECT * FROM `User` WHERE `User`.`Privileges`=" + privilege;
+		ResultSet resultSet = Connector.getResultSet(connection, sqlQuery);
+		return ResultSetParser.toUserMap(resultSet);
+	}
+
+	/** Retrieves a single user on database in a map of ID-to-User based on ID.
+	 * @param connection Database connection.
+	 * @param id ID to search for.
+	 * @throws SQLException Thrown on any SQL Error.
+	 * @return User */
 	public static User getUserByID(Connection connection, int id) throws SQLException {
 		String sqlQuery = "SELECT * FROM `User` WHERE `User`.`ID`=" + id;
 		ResultSet resultSet = Connector.getResultSet(connection, sqlQuery);
 		return ResultSetParser.toUserMap(resultSet).get(id);
+	}
+	
+	/** Retrieves a single user on database in a map of ID-to-User based on Real Name.
+	 * @param connection Database connection.
+	 * @param realName User's real name to search for.
+	 * @throws SQLException Thrown on any SQL Error.
+	 * @return User */
+	public static User getUserByRealName(Connection connection, String realName) throws SQLException {
+		return getUsersByRealName(connection, realName).values().iterator().next();
+	}
+	
+	/** Retrieves a single user on database in a map of ID-to-User based on username.
+	 * @param connection Database connection.
+	 * @param username Username to search for.
+	 * @throws SQLException Thrown on any SQL Error.
+	 * @return User */
+	public static User getUserByUsername(Connection connection, String username) throws SQLException {
+		String sqlQuery = "SELECT * FROM `User` WHERE `User`.`Username` LIKE '%" + username + "%'";
+		ResultSet resultSet = Connector.getResultSet(connection, sqlQuery);
+		return ResultSetParser.toUserMap(resultSet).values().iterator().next();
+	}
+	
+	/** Retrieves the last User inserted on database.
+	 * @param connection Database connection.
+	 * @throws SQLException Thrown on any SQL Error.
+	 * @return User */
+	public static User getUserLastInserted(Connection connection) throws SQLException {
+		String sqlQuery = "SELECT * FROM `User` WHERE `User`.`ID` = LAST_INSERT_ID()";
+		ResultSet resultSet = Connector.getResultSet(connection, sqlQuery);
+		return ResultSetParser.toUserMap(resultSet).values().iterator().next();
 	}
 
 	/* -----------------------------
