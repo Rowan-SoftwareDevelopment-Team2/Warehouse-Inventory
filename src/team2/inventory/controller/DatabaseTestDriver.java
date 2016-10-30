@@ -3,7 +3,6 @@ package team2.inventory.controller;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Iterator;
-import java.util.Map;
 
 import team2.inventory.controller.database.Connector;
 import team2.inventory.controller.database.Query;
@@ -13,14 +12,14 @@ import team2.inventory.model.Inventory;
  * @author James A. Donnell Jr. */
 public class DatabaseTestDriver {
 
-	/** Testing all tables in database.
-	 * @param args Database table, username and password on seperate lines. */
+	/** Testing various database methods.
+	 * @param args Database table, username and password on separate lines. */
 	public static void main(String[] args) {
 		try {
 			Connection connection = Connector.createConnection(args[0], args[1], args[2]);
 			
 			//allTests(connection);
-			Iterator<Inventory> itty = Query.getInventory(connection).values().iterator();
+			Iterator<Inventory> itty = Query.getInventoryByLocation(connection, 1).values().iterator();
 			while(itty.hasNext()) {
 				Inventory current = itty.next();
 				System.out.println(current + "\n");
