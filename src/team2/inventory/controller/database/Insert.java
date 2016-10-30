@@ -50,6 +50,7 @@ public class Insert {
 		if (location.getId() == 0) {
 			String sqlQuery = "INSERT INTO `Location` VALUES (NULL, '" + location.getDescription() + "', '" + location.getAisle() + "', '" + location.getRow() + "')";
 			Connector.getResultSet(connection, sqlQuery);
+			location.setId(Query.getLocationLastInserted(connection).getId());
 		} else
 			throw new SQLException("Location" + error);
 	}

@@ -300,6 +300,12 @@ public class Query {
 		ResultSet resultSet = Connector.getResultSet(connection, sqlQuery);
 		return ResultSetParser.toLocationMap(resultSet);
 	}
+	
+	public static Map<Integer, Location> getLocationsByDescription(Connection connection, String description) throws SQLException {
+		String sqlQuery = "SELECT * FROM `Location` WHERE `Location`.`Description` LIKE '%" + description + "%'" ;
+		ResultSet resultSet = Connector.getResultSet(connection, sqlQuery);
+		return ResultSetParser.toLocationMap(resultSet);
+	}
 
 	/** Retrieves all locations on database in a map of ID-to-Location.
 	 * @param connection Database connection.
@@ -310,6 +316,22 @@ public class Query {
 		String sqlQuery = "SELECT * FROM `Location` WHERE `Location`.`ID`=" + id;
 		ResultSet resultSet = Connector.getResultSet(connection, sqlQuery);
 		return ResultSetParser.toLocationMap(resultSet).get(id);
+	}
+	
+	public static Location getLocationByDescription(Connection connection, String description) throws SQLException {
+		return getLocationsByDescription(connection, description).values().iterator().next();
+	}
+	
+	public static Location getLocationByAisleRow(Connection connection, int aisle, int row) throws SQLException {
+		String sqlQuery = "SELECT * FROM `Location` WHERE `Location`.`Aisle`=" + aisle + " AND `Location`.`Row`=" + row;
+		ResultSet resultSet = Connector.getResultSet(connection, sqlQuery);
+		return ResultSetParser.toLocationMap(resultSet).values().iterator().next();
+	}
+	
+	public static Location getLocationLastInserted(Connection connection) throws SQLException {
+		String sqlQuery = "SELECT * FROM `Location` WHERE `Location`.`ID` = LAST_INSERT_ID()";
+		ResultSet resultSet = Connector.getResultSet(connection, sqlQuery);
+		return ResultSetParser.toLocationMap(resultSet).values().iterator().next();
 	}
 
 	/* -----------------------------
