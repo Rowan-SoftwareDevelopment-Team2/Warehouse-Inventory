@@ -460,4 +460,14 @@ public class Query {
 		ResultSet resultSet = Connector.getResultSet(connection, sqlQuery);
 		return ResultSetParser.toInventoryMap(resultSet).get(id);
 	}
+	
+	/** Retrieves the last Inventory inserted on database.
+	 * @param connection Database connection.
+	 * @throws SQLException Thrown on any SQL Error.
+	 * @return Inventory */
+	public static Inventory getInventoryLastInserted(Connection connection) throws SQLException {
+		String sqlQuery = "SELECT * FROM `Inventory` WHERE `Inventory`.`ID` = LAST_INSERT_ID()";
+		ResultSet resultSet = Connector.getResultSet(connection, sqlQuery);
+		return ResultSetParser.toInventoryMap(resultSet).values().iterator().next();
+	}
 }

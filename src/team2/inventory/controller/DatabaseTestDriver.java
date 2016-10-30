@@ -21,7 +21,7 @@ public class DatabaseTestDriver {
 						
 			User user = new User(0, "CoolKat100", "password", "Ana Katrina Pena Guerrero", 0);
 			System.out.println(user + "-->" + user.getId());
-			Insert.insertUser(connection, user);
+			Insert.insert(connection, user);
 			System.out.println(user + "-->" + user.getId());
 			
 			connection.close();
