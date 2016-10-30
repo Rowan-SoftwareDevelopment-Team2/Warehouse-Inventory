@@ -4,11 +4,15 @@ package team2.inventory.model;
  * @author James A. Donnell Jr. */
 public class Item {
 	/** Item Information. */
-	private int id, manufacturer, barcode;
+	private int id;
+	/** Item Information. */
+	private Barcode barcode;
+	/** Item Information. */
+	private Company manufacturer;
 	/** Item Information. */
 	private String name, description;
 	
-	public Item(int id, String name, int manufacturer, int barcode, String description) {
+	public Item(int id, String name, Company manufacturer, Barcode barcode, String description) {
 		this.id = id;
 		this.name = name;
 		this.manufacturer = manufacturer;
@@ -24,19 +28,19 @@ public class Item {
 		this.id = id;
 	}
 
-	public int getManufacturer() {
+	public Company getManufacturer() {
 		return manufacturer;
 	}
 
-	public void setManufacturer(int manufacturer) {
+	public void setManufacturer(Company manufacturer) {
 		this.manufacturer = manufacturer;
 	}
 
-	public int getBarcode() {
+	public Barcode getBarcode() {
 		return barcode;
 	}
 
-	public void setBarcode(int barcode) {
+	public void setBarcode(Barcode barcode) {
 		this.barcode = barcode;
 	}
 

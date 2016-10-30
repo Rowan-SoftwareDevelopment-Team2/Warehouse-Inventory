@@ -185,10 +185,10 @@ public class Query {
 	 * @param connection Database connection.
 	 * @throws SQLException Thrown on any SQL Error.
 	 * @return Map */
-	public static Map<Integer, Item> getItems(Connection connection) throws SQLException {
+	public static Map<Integer, Item> getItems(Connection connection, Map<Integer, Barcode> barcodeMap, Map<Integer, Company> companyMap) throws SQLException {
 		String sqlQuery = "SELECT * FROM `Item`";
 		ResultSet resultSet = Connector.getResultSet(connection, sqlQuery);
-		return ResultSetParser.toItemMap(resultSet);
+		return ResultSetParser.toItemMap(resultSet, barcodeMap, companyMap);
 	}
 	
 	/** Retrieves all items on database with a specific Name in a map of ID-to-Item.
@@ -196,10 +196,10 @@ public class Query {
 	 * @param name Item name to search for.
 	 * @throws SQLException Thrown on any SQL Error.
 	 * @return Map */
-	public static Map<Integer, Item> getItemsByName(Connection connection, String name) throws SQLException {
+	public static Map<Integer, Item> getItemsByName(Connection connection, String name, Map<Integer, Barcode> barcodeMap, Map<Integer, Company> companyMap) throws SQLException {
 		String sqlQuery = "SELECT * FROM `Item` WHERE `Item`.`Name` LIKE '%" + name + "%'";
 		ResultSet resultSet = Connector.getResultSet(connection, sqlQuery);
-		return ResultSetParser.toItemMap(resultSet);
+		return ResultSetParser.toItemMap(resultSet, barcodeMap, companyMap);
 	}
 	
 	/** Retrieves all items on database with a specific Manufacturer in a map of ID-to-Item.
@@ -207,10 +207,10 @@ public class Query {
 	 * @param manufacturerID Manufacturer ID to search for.
 	 * @throws SQLException Thrown on any SQL Error.
 	 * @return Map */
-	public static Map<Integer, Item> getItemsByManufacturer(Connection connection, int manufacturerID) throws SQLException {
+	public static Map<Integer, Item> getItemsByManufacturer(Connection connection, int manufacturerID, Map<Integer, Barcode> barcodeMap, Map<Integer, Company> companyMap) throws SQLException {
 		String sqlQuery = "SELECT * FROM `Item` WHERE `Item`.`Manufacturer`='" + manufacturerID + "'";
 		ResultSet resultSet = Connector.getResultSet(connection, sqlQuery);
-		return ResultSetParser.toItemMap(resultSet);
+		return ResultSetParser.toItemMap(resultSet, barcodeMap, companyMap);
 	}
 	
 	/** Retrieves all items on database with a specific Barcode in a map of ID-to-Item.
@@ -218,10 +218,10 @@ public class Query {
 	 * @param barcodeID Barcode ID to search for.
 	 * @throws SQLException Thrown on any SQL Error.
 	 * @return Map */
-	public static Map<Integer, Item> getItemsByBarcode(Connection connection, int barcodeID) throws SQLException {
+	public static Map<Integer, Item> getItemsByBarcode(Connection connection, int barcodeID, Map<Integer, Barcode> barcodeMap, Map<Integer, Company> companyMap) throws SQLException {
 		String sqlQuery = "SELECT * FROM `Item` WHERE `Item`.`Barcode`='" + barcodeID + "'";
 		ResultSet resultSet = Connector.getResultSet(connection, sqlQuery);
-		return ResultSetParser.toItemMap(resultSet);
+		return ResultSetParser.toItemMap(resultSet, barcodeMap, companyMap);
 	}
 	
 	/** Retrieves all items on database with a specific Description in a map of ID-to-Item.
@@ -229,10 +229,10 @@ public class Query {
 	 * @param description Item description to search for.
 	 * @throws SQLException Thrown on any SQL Error.
 	 * @return Map */
-	public static Map<Integer, Item> getItemsByDescription(Connection connection, String description) throws SQLException {
+	public static Map<Integer, Item> getItemsByDescription(Connection connection, String description, Map<Integer, Barcode> barcodeMap, Map<Integer, Company> companyMap) throws SQLException {
 		String sqlQuery = "SELECT * FROM `Item` WHERE `Item`.`Description` LIKE '%" + description + "%'";
 		ResultSet resultSet = Connector.getResultSet(connection, sqlQuery);
-		return ResultSetParser.toItemMap(resultSet);
+		return ResultSetParser.toItemMap(resultSet, barcodeMap, companyMap);
 	}
 
 	/** Retrieves a single item on database in a map of ID-to-Item based on ID.
@@ -240,10 +240,10 @@ public class Query {
 	 * @param id ID to search for.
 	 * @throws SQLException Thrown on any SQL Error.
 	 * @return Map */
-	public static Item getItemByID(Connection connection, int id) throws SQLException {
+	public static Item getItemByID(Connection connection, int id, Map<Integer, Barcode> barcodeMap, Map<Integer, Company> companyMap) throws SQLException {
 		String sqlQuery = "SELECT * FROM `Item` WHERE `Item`.`ID`=" + id;
 		ResultSet resultSet = Connector.getResultSet(connection, sqlQuery);
-		return ResultSetParser.toItemMap(resultSet).get(id);
+		return ResultSetParser.toItemMap(resultSet, barcodeMap, companyMap).get(id);
 	}
 	
 	/** Retrieves a single item on database in a map of ID-to-Item based on Name.
@@ -251,8 +251,8 @@ public class Query {
 	 * @param name Item name to search for.
 	 * @throws SQLException Thrown on any SQL Error.
 	 * @return Map */
-	public static Item getItemByName(Connection connection, String name) throws SQLException {
-		return getItemsByName(connection, name).values().iterator().next();
+	public static Item getItemByName(Connection connection, String name, Map<Integer, Barcode> barcodeMap, Map<Integer, Company> companyMap) throws SQLException {
+		return getItemsByName(connection, name, barcodeMap, companyMap).values().iterator().next();
 	}
 	
 	/** Retrieves a single item on database in a map of ID-to-Item based on Description.
@@ -260,18 +260,18 @@ public class Query {
 	 * @param description Item description to search for.
 	 * @throws SQLException Thrown on any SQL Error.
 	 * @return Map */
-	public static Item getItemByDescription(Connection connection, String description) throws SQLException {
-		return getItemsByDescription(connection, description).values().iterator().next();
+	public static Item getItemByDescription(Connection connection, String description, Map<Integer, Barcode> barcodeMap, Map<Integer, Company> companyMap) throws SQLException {
+		return getItemsByDescription(connection, description, barcodeMap, companyMap).values().iterator().next();
 	}
 	
 	/** Retrieves the last Item inserted on database.
 	 * @param connection Database connection.
 	 * @throws SQLException Thrown on any SQL Error.
 	 * @return Item */
-	public static Item getItemLastInserted(Connection connection) throws SQLException {
+	public static Item getItemLastInserted(Connection connection, Map<Integer, Barcode> barcodeMap, Map<Integer, Company> companyMap) throws SQLException {
 		String sqlQuery = "SELECT * FROM `Item` WHERE `Item`.`ID` = LAST_INSERT_ID()";
 		ResultSet resultSet = Connector.getResultSet(connection, sqlQuery);
-		return ResultSetParser.toItemMap(resultSet).values().iterator().next();
+		return ResultSetParser.toItemMap(resultSet, barcodeMap, companyMap).values().iterator().next();
 	}
 	
 	/* -----------------------------
@@ -449,64 +449,59 @@ public class Query {
 	/* -----------------------------
 	 *      Inventory Methods
 	 * ----------------------------- */
-
-	public static Map<Integer, Inventory> get(Connection connection) throws SQLException {
-		// TODO Return everything
-		return null;
-	}
 	
 	public static Map<Integer, Inventory> getInventory(Connection connection) throws SQLException {
 		String sqlQuery = "SELECT * FROM `Inventory`";
 		ResultSet resultSet = Connector.getResultSet(connection, sqlQuery);
-		return ResultSetParser.toInventoryMap(resultSet);
+		return toInventoryMap(connection, resultSet);
 	}
 	
 	public static Map<Integer, Inventory> getInventoryByItem(Connection connection, int itemID) throws SQLException {
 		String sqlQuery = "SELECT * FROM `Inventory` WHERE `Inventory`.`Item`=" + itemID;
 		ResultSet resultSet = Connector.getResultSet(connection, sqlQuery);
-		return ResultSetParser.toInventoryMap(resultSet);
+		return toInventoryMap(connection, resultSet);
 	}
 	
 	public static Map<Integer, Inventory> getInventoryBySupplier(Connection connection, int supplierID) throws SQLException {
 		String sqlQuery = "SELECT * FROM `Inventory` WHERE `Inventory`.`Supplier`=" + supplierID;
 		ResultSet resultSet = Connector.getResultSet(connection, sqlQuery);
-		return ResultSetParser.toInventoryMap(resultSet);
+		return toInventoryMap(connection, resultSet);
 	}
 	
 	public static Map<Integer, Inventory> getInventoryByItemType(Connection connection, int itemTypeID) throws SQLException {
 		String sqlQuery = "SELECT * FROM `Inventory` WHERE `Inventory`.`Type`=" + itemTypeID;
 		ResultSet resultSet = Connector.getResultSet(connection, sqlQuery);
-		return ResultSetParser.toInventoryMap(resultSet);
+		return toInventoryMap(connection, resultSet);
 	}
 	
 	public static Map<Integer, Inventory> getInventoryByParent(Connection connection, int parentID) throws SQLException {
 		String sqlQuery = "SELECT * FROM `Inventory` WHERE `Inventory`.`Parent`=" + parentID;
 		ResultSet resultSet = Connector.getResultSet(connection, sqlQuery);
-		return ResultSetParser.toInventoryMap(resultSet);
+		return toInventoryMap(connection, resultSet);
 	}
 	
 	public static Map<Integer, Inventory> getInventoryByReceived(Connection connection, Date received) throws SQLException {
 		String sqlQuery = "SELECT * FROM `Inventory` WHERE `Inventory`.`Received`='" + received + "'";
 		ResultSet resultSet = Connector.getResultSet(connection, sqlQuery);
-		return ResultSetParser.toInventoryMap(resultSet);
+		return toInventoryMap(connection, resultSet);
 	}
 	
 	public static Map<Integer, Inventory> getInventoryByShipped(Connection connection, Date shipped) throws SQLException {
 		String sqlQuery = "SELECT * FROM `Inventory` WHERE `Inventory`.`Shipped`='" + shipped + "'";
 		ResultSet resultSet = Connector.getResultSet(connection, sqlQuery);
-		return ResultSetParser.toInventoryMap(resultSet);
+		return toInventoryMap(connection, resultSet);
 	}
 	
 	public static Map<Integer, Inventory> getInventoryByBarcode(Connection connection, int barcodeID) throws SQLException {
 		String sqlQuery = "SELECT * FROM `Inventory` WHERE `Inventory`.`Barcode`=" + barcodeID;
 		ResultSet resultSet = Connector.getResultSet(connection, sqlQuery);
-		return ResultSetParser.toInventoryMap(resultSet);
+		return toInventoryMap(connection, resultSet);
 	}
 
 	public static Inventory getInventoryByID(Connection connection, int id) throws SQLException {
 		String sqlQuery = "SELECT * FROM `Inventory` WHERE `Inventory`.`ID`=" + id;
 		ResultSet resultSet = Connector.getResultSet(connection, sqlQuery);
-		return ResultSetParser.toInventoryMap(resultSet).get(id);
+		return toInventoryMap(connection, resultSet).get(id);
 	}
 	
 	/** Retrieves the last Inventory inserted on database.
@@ -516,6 +511,14 @@ public class Query {
 	public static Inventory getInventoryLastInserted(Connection connection) throws SQLException {
 		String sqlQuery = "SELECT * FROM `Inventory` WHERE `Inventory`.`ID` = LAST_INSERT_ID()";
 		ResultSet resultSet = Connector.getResultSet(connection, sqlQuery);
-		return ResultSetParser.toInventoryMap(resultSet).values().iterator().next();
+		return toInventoryMap(connection, resultSet).values().iterator().next();
+	}
+	
+	private static Map<Integer, Inventory> toInventoryMap(Connection connection, ResultSet resultSet) throws SQLException {
+		Map<Integer, Barcode> barcodeMap = getBarcodes(connection);
+		Map<Integer, Company> companyMap = getCompanies(connection);
+		Map<Integer, Item> itemMap = getItems(connection, barcodeMap, companyMap);
+		Map<Integer, Location> locationMap = getLocations(connection);
+		return ResultSetParser.toInventoryMap(resultSet, itemMap, companyMap, locationMap, barcodeMap);
 	}
 }

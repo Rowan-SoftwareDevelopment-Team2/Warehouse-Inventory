@@ -5,9 +5,13 @@ import java.sql.Date;
 /** Inventory class.
  * @author James A. Donnell Jr. */
 public class Inventory {
-	private int id, item, amount, supplier, 
-	type, parent, location, barcode;
+	private int id, amount, type, parent;
 	private Date shipped, received;
+	
+	private Item item;
+	private Company supplier;
+	private Location location;
+	private Barcode barcode;
 
 	/** Inventory 
 	 * @param id Inventory line item ID.
@@ -20,7 +24,7 @@ public class Inventory {
 	 * @param shipped Date shipped.
 	 * @param location Location in warehouse
 	 * @param barcode Barcode of pallet. */
-	public Inventory(int id, int item, int amount, int supplier, int type, int parent, Date received, Date shipped, int location, int barcode) {
+	public Inventory(int id, Item item, int amount, Company supplier, int type, int parent, Date received, Date shipped, Location location, Barcode barcode) {
 		this.id = id;
 		this.item = item;
 		this.amount = amount;
@@ -41,11 +45,11 @@ public class Inventory {
 		this.id = id;
 	}
 
-	public int getItem() {
+	public Item getItem() {
 		return item;
 	}
 
-	public void setItem(int item) {
+	public void setItem(Item item) {
 		this.item = item;
 	}
 
@@ -57,11 +61,11 @@ public class Inventory {
 		this.amount = amount;
 	}
 
-	public int getSupplier() {
+	public Company getSupplier() {
 		return supplier;
 	}
 
-	public void setSupplier(int supplier) {
+	public void setSupplier(Company supplier) {
 		this.supplier = supplier;
 	}
 
@@ -81,19 +85,19 @@ public class Inventory {
 		this.parent = parent;
 	}
 
-	public int getLocation() {
+	public Location getLocation() {
 		return location;
 	}
 
-	public void setLocation(int location) {
+	public void setLocation(Location location) {
 		this.location = location;
 	}
 
-	public int getBarcode() {
+	public Barcode getBarcode() {
 		return barcode;
 	}
 
-	public void setBarcode(int barcode) {
+	public void setBarcode(Barcode barcode) {
 		this.barcode = barcode;
 	}
 

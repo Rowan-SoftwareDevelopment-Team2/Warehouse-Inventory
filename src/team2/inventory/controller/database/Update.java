@@ -24,8 +24,8 @@ public class Update {
 	}
 
 	public static void updateItem(Connection connection, Item item) throws SQLException {
-		String sqlQuery = "UPDATE `Item` SET `Name`='" + item.getName() + "', `Manufacturer`='" + item.getManufacturer() 
-		+ "', `Barcode`='" + item.getBarcode() + "', `Description`='" + item.getDescription() + "' WHERE `ID`=" + item.getId();
+		String sqlQuery = "UPDATE `Item` SET `Name`='" + item.getName() + "', `Manufacturer`='" + item.getManufacturer().getId() 
+		+ "', `Barcode`='" + item.getBarcode().getId() + "', `Description`='" + item.getDescription() + "' WHERE `ID`=" + item.getId();
 		Connector.getResultSet(connection, sqlQuery);
 	}
 
@@ -43,11 +43,11 @@ public class Update {
 
 	public static void updateInventory(Connection connection, Inventory inventory) throws SQLException {
 		String sql = "UPDATE `Inventory` SET `Item`=";
-		sql += (inventory.getItem() == 0) ? "NULL" : "'" + inventory.getItem() + "'";
+		sql += (inventory.getItem() == null) ? "NULL" : "'" + inventory.getItem().getId() + "'";
 		sql += ", `Amount`=";
 		sql += (inventory.getAmount() == 0) ? "NULL" : "'" + inventory.getAmount() + "'";
 		sql += ", `Supplier`=";
-		sql += (inventory.getSupplier() == 0) ? "NULL" : "'" + inventory.getSupplier() + "'";
+		sql += (inventory.getSupplier() == null) ? "NULL" : "'" + inventory.getSupplier().getId() + "'";
 		sql += ", `Type`=";
 		sql += (inventory.getType() == 0) ? "NULL" : "'" + inventory.getType() + "'";
 		sql += ", `Parent`=";
@@ -57,9 +57,9 @@ public class Update {
 		sql += ", `Shipped`=";
 		sql += (inventory.getShipped() == null) ? "NULL" : "'" + inventory.getShipped() + "'";
 		sql += ", `Location`=";
-		sql += (inventory.getLocation() == 0) ? "NULL" : "'" + inventory.getLocation() + "'";
+		sql += (inventory.getLocation() == null) ? "NULL" : "'" + inventory.getLocation().getId() + "'";
 		sql += ", `Barcode`=";
-		sql += (inventory.getBarcode() == 0) ? "NULL" : "'" + inventory.getBarcode() + "'";
+		sql += (inventory.getBarcode() == null) ? "NULL" : "'" + inventory.getBarcode().getId() + "'";
 		sql += " WHERE `ID`=" + inventory.getId();
 		Connector.getResultSet(connection, sql);
 	}

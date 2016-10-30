@@ -34,10 +34,10 @@ public class ResultSetParser {
 		return result;
 	}
 
-	protected static Map<Integer, Item> toItemMap(ResultSet resultSet) throws SQLException {
+	protected static Map<Integer, Item> toItemMap(ResultSet resultSet, Map<Integer, Barcode> barcodeMap, Map<Integer, Company> companyMap) throws SQLException {
 		Map<Integer, Item> result = new HashMap<Integer, Item>();
 		while(resultSet.next()) {
-			Item item = new Item(resultSet.getInt(1), resultSet.getString(2), resultSet.getInt(3), resultSet.getInt(4), resultSet.getString(5));
+			Item item = new Item(resultSet.getInt(1), resultSet.getString(2), companyMap.get(resultSet.getInt(3)), barcodeMap.get(resultSet.getInt(4)), resultSet.getString(5));
 			result.put(resultSet.getInt(1), item);
 		}
 		return result;
@@ -77,13 +77,13 @@ public class ResultSetParser {
 		return result;
 	}
 	
-	protected static Map<Integer, Inventory> toInventoryMap(ResultSet resultSet) throws SQLException {
+	protected static Map<Integer, Inventory> toInventoryMap(ResultSet resultSet, Map<Integer, Item> itemMap, Map<Integer, Company> companyMap, Map<Integer, Location> locationMap, Map<Integer, Barcode> barcodeMap) throws SQLException {
 		Map<Integer, Inventory> result = new HashMap<Integer, Inventory>();
 		while(resultSet.next()) {
-			Inventory inventory = new Inventory(resultSet.getInt(1), resultSet.getInt(2), 
-					resultSet.getInt(3), resultSet.getInt(4), resultSet.getInt(5), 
+			Inventory inventory = new Inventory(resultSet.getInt(1), itemMap.get(resultSet.getInt(2)), 
+					resultSet.getInt(3), companyMap.get(resultSet.getInt(4)), resultSet.getInt(5), 
 					resultSet.getInt(6), resultSet.getDate(7), resultSet.getDate(8), 
-					resultSet.getInt(9), resultSet.getInt(10));
+					locationMap.get(resultSet.getInt(9)), barcodeMap.get(resultSet.getInt(10)));
 			result.put(resultSet.getInt(1), inventory);
 		}
 		return result;
