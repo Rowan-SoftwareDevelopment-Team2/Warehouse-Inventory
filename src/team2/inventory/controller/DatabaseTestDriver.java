@@ -2,11 +2,9 @@ package team2.inventory.controller;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.Iterator;
 
 import team2.inventory.controller.database.Connector;
 import team2.inventory.controller.database.Query;
-import team2.inventory.model.Inventory;
 
 /** Database testing driver.
  * @author James A. Donnell Jr. */
@@ -18,12 +16,8 @@ public class DatabaseTestDriver {
 		try {
 			Connection connection = Connector.createConnection(args[0], args[1], args[2]);
 			
-			//allTests(connection);
-			Iterator<Inventory> itty = Query.getInventoryByLocation(connection, 1).values().iterator();
-			while(itty.hasNext()) {
-				Inventory current = itty.next();
-				System.out.println(current + "\n");
-			}
+			System.out.println("Highest Aisle Number:\t" + Query.getMaxAisle(connection));
+			System.out.println("Highest Row Number:\t" + Query.getMaxRow(connection));
 			
 			connection.close();
 		} catch (SQLException e) {

@@ -372,6 +372,26 @@ public class Query {
 		ResultSet resultSet = Connector.getResultSet(connection, sqlQuery);
 		return ResultSetParser.toLocationMap(resultSet).values().iterator().next();
 	}
+	
+	/** Retrieves the highest aisle number on database.
+	 * @throws SQLException Database connection.
+	 * @param connection
+	 * @return int */
+	public static int getMaxAisle(Connection connection) throws SQLException {
+		String sqlQuery = "SELECT MAX(`Aisle`) FROM `Location`";
+		ResultSet resultSet = Connector.getResultSet(connection, sqlQuery);
+		return ResultSetParser.getMaxResult(resultSet);
+	}
+	
+	/** Retrieves the highest row number on database.
+	 * @throws SQLException Database connection.
+	 * @param connection
+	 * @return int */
+	public static int getMaxRow(Connection connection) throws SQLException {
+		String sqlQuery = "SELECT MAX(`Row`) FROM `Location`";
+		ResultSet resultSet = Connector.getResultSet(connection, sqlQuery);
+		return ResultSetParser.getMaxResult(resultSet);
+	}
 
 	/* -----------------------------
 	 *      Privileges Methods

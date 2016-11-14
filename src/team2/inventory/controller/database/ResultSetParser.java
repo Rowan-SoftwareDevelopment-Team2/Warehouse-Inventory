@@ -88,4 +88,10 @@ public class ResultSetParser {
 		}
 		return result;
 	}
+
+	/* Assumes there is only one int in result. */
+	public static int getMaxResult(ResultSet resultSet) throws SQLException {
+		resultSet.next();
+		return resultSet.getInt(1);
+	}
 }
