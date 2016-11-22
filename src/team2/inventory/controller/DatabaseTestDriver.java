@@ -4,7 +4,10 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 import team2.inventory.controller.database.Connector;
+import team2.inventory.controller.database.Inserter;
 import team2.inventory.controller.database.Query;
+import team2.inventory.controller.database.Remover;
+import team2.inventory.model.Location;
 
 /** Database testing driver.
  * @author James A. Donnell Jr. */
@@ -16,8 +19,13 @@ public class DatabaseTestDriver {
 		try {
 			Connection connection = Connector.createConnection(args[0], args[1], args[2]);
 			
-			System.out.println("Highest Aisle Number:\t" + Query.getMaxAisle(connection));
-			System.out.println("Highest Row Number:\t" + Query.getMaxRow(connection));
+			Location test = new Location(0, "Test item", 10, 20);
+			
+			System.out.println(Query.getLocations(connection));
+			Inserter.insert(connection, test);
+			System.out.println(Query.getLocations(connection));
+			Remover.remove(connection, test);
+			System.out.println(Query.getLocations(connection));
 			
 			connection.close();
 		} catch (SQLException e) {
