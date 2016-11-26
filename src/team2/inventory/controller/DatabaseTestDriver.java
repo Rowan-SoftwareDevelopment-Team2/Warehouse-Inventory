@@ -19,7 +19,7 @@ public class DatabaseTestDriver {
 			Connection connection = Connector.createConnection(args[0], args[1], args[2]);
 			
 			System.out.println(Query.getUsers(connection));
-			System.out.println(Login.login(connection, "admin", "abcd"));
+			System.out.println(Login.login(connection, "default", "default"));
 			
 			connection.close();
 		} catch (SQLException e) {

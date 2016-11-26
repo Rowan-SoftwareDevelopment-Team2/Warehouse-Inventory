@@ -38,7 +38,7 @@ public class Updater {
 	}
 
 	public static void update(Connection connection, User user) throws SQLException {
-		String sqlQuery = "UPDATE `User` SET `Username`='" + user.getUsername() + "', `Password`='" + user.getPassword() 
+		String sqlQuery = "UPDATE `User` SET `Username`='" + user.getUsername() + "', `Password`='" + user.getHash() 
 		+ "', `RealName`='" + user.getRealname() + "', `Privileges`='" + user.getPrivileges() + "' WHERE `ID`=" + user.getId();
 		Connector.getResultSet(connection, sqlQuery);
 	}

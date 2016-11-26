@@ -55,7 +55,7 @@ public class Inserter {
 	public static void insert(Connection connection, User user) throws SQLException {
 		if (user.getId() != 0)
 			throw new SQLException("User" + customError);
-		String sqlQuery = "INSERT INTO `User` VALUES (NULL, '" + user.getUsername() + "', '" + user.getPassword() + "', '" + user.getRealname() + "', '" + user.getPrivileges() + "')";
+		String sqlQuery = "INSERT INTO `User` VALUES (NULL, '" + user.getUsername() + "', '" + user.getHash() + "', '" + user.getRealname() + "', '" + user.getPrivileges() + "')";
 		Connector.getResultSet(connection, sqlQuery);
 		user.setId(Query.getUserLastInserted(connection).getId());
 	}

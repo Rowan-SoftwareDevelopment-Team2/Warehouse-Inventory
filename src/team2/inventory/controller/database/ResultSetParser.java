@@ -71,7 +71,8 @@ public class ResultSetParser {
 	protected static Map<Integer, User> toUserMap(ResultSet resultSet) throws SQLException {
 		Map<Integer, User> result = new HashMap<Integer, User>();
 		while(resultSet.next()) {
-			User user = new User(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4), resultSet.getInt(5));
+			User user = new User(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(4), resultSet.getInt(5));
+			user.setHash(resultSet.getString(3));
 			result.put(resultSet.getInt(1), user);
 		}
 		return result;
