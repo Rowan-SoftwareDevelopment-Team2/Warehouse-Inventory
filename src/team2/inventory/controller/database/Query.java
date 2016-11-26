@@ -469,7 +469,7 @@ public class Query {
 	 * @throws SQLException Thrown on any SQL Error.
 	 * @return User */
 	public static User getUserByUsername(Connection connection, String username) throws SQLException {
-		String sqlQuery = "SELECT * FROM `User` WHERE `User`.`Username` LIKE '%" + username + "%'";
+		String sqlQuery = "SELECT * FROM `User` WHERE `User`.`Username`='" + username + "'";
 		ResultSet resultSet = Connector.getResultSet(connection, sqlQuery);
 		return ResultSetParser.toUserMap(resultSet).values().iterator().next();
 	}

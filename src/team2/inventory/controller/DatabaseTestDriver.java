@@ -3,29 +3,23 @@ package team2.inventory.controller;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import team2.inventory.controller.Login.LoginException;
 import team2.inventory.controller.database.Connector;
-import team2.inventory.controller.database.Inserter;
 import team2.inventory.controller.database.Query;
-import team2.inventory.controller.database.Remover;
-import team2.inventory.model.Location;
 
 /** Database testing driver.
  * @author James A. Donnell Jr. */
 public class DatabaseTestDriver {
 
 	/** Testing various database methods.
-	 * @param args Database table, username and password on separate lines. */
-	public static void main(String[] args) {
+	 * @param args Database table, username and password on separate lines. 
+	 * @throws LoginException */
+	public static void main(String[] args) throws LoginException {
 		try {
 			Connection connection = Connector.createConnection(args[0], args[1], args[2]);
 			
-			Location test = new Location(0, "Test item", 10, 20);
-			
-			System.out.println(Query.getLocations(connection));
-			Inserter.insert(connection, test);
-			System.out.println(Query.getLocations(connection));
-			Remover.remove(connection, test);
-			System.out.println(Query.getLocations(connection));
+			System.out.println(Query.getUsers(connection));
+			System.out.println(Login.login(connection, "admin", "abcd"));
 			
 			connection.close();
 		} catch (SQLException e) {
