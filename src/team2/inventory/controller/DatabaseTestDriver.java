@@ -1,5 +1,6 @@
 package team2.inventory.controller;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -13,29 +14,19 @@ public class DatabaseTestDriver {
 
 	/** Testing various database methods.
 	 * @param args Database table, username and password on separate lines. 
-	 * @throws LoginException */
-	public static void main(String[] args) throws LoginException {
+	 * @throws LoginException 
+	 * @throws IOException */
+	public static void main(String[] args) throws LoginException, IOException {
 		try {
 			Connection connection = Connector.createConnection(args[0], args[1], args[2]);
 			
-			System.out.println(Query.getUsers(connection));
-			System.out.println(Login.login(connection, "default", "default"));
+			String filename = "F:\\Desktop\\test.csv";
+			Report.generateInventoryReport(filename, Query.getInventory(connection));
+			Report.openReport(filename);
 			
 			connection.close();
 		} catch (SQLException e) {
 			System.err.println(e.getMessage());
 		}
-	}
-
-	@SuppressWarnings("unused")
-	private static void allTests(Connection connection) throws SQLException {
-		System.out.println("All Barcodes:\n" + Query.getBarcodes(connection) + "\n");
-		System.out.println("All Companies:\n" + Query.getCompanies(connection) + "\n");
-		System.out.println("All Items:\n" + Query.getItems(connection, Query.getBarcodes(connection), Query.getCompanies(connection)) + "\n");
-		System.out.println("All Item Types:\n" + Query.getItemTypes(connection) + "\n");
-		System.out.println("All Locations:\n" + Query.getLocations(connection) + "\n");
-		System.out.println("All Privileges:\n" + Query.getPrivileges(connection) + "\n");
-		System.out.println("All Users:\n" + Query.getUsers(connection) + "\n");
-		System.out.println("All Inventory:\n" + Query.getInventory(connection) + "\n");
 	}
 }

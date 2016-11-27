@@ -609,13 +609,13 @@ public class Query {
 	
 	/** Query helper class.
 	 * @author James A. Donnell Jr. */
-	private static class Helper {
+	protected static class Helper {
 		/** Generates all requirements to instantiate Inventory objects from database data.
 		 * @param connection Database connection.
 		 * @param resultSet ResultSet generated from Inventory table query.
 		 * @throws SQLException Thrown on any SQL Error.
 		 * @return Map */
-		private static Map<Integer, Inventory> toInventoryMap(Connection connection, ResultSet resultSet) throws SQLException {
+		protected static Map<Integer, Inventory> toInventoryMap(Connection connection, ResultSet resultSet) throws SQLException {
 			Map<Integer, Barcode> barcodeMap = getBarcodes(connection);
 			Map<Integer, Company> companyMap = getCompanies(connection);
 			Map<Integer, Item> itemMap = getItems(connection, barcodeMap, companyMap);
