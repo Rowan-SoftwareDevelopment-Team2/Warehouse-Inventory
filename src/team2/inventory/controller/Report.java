@@ -68,6 +68,9 @@ public class Report {
 				location = i.getLocation().getDescription();
 			if(i.getBarcode()!=null)
 				barcode = i.getBarcode().getBarcode();
+			if (barcode.equals(""))
+				if(i.getItem().getBarcode().getBarcode()!=null)
+					barcode = i.getItem().getBarcode().getBarcode();
 			if(i.getReceived()!=null)
 				received = i.getReceived().toString();
 			if(i.getShipped()!=null)

@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 import team2.inventory.controller.Login.LoginException;
 import team2.inventory.controller.database.Connector;
-import team2.inventory.controller.database.Query;
+import team2.inventory.controller.database.QueryInventoryExtender;
 
 /** Database testing driver.
  * @author James A. Donnell Jr. */
@@ -21,7 +21,7 @@ public class DatabaseTestDriver {
 			Connection connection = Connector.createConnection(args[0], args[1], args[2]);
 			
 			String filename = "F:\\Desktop\\test.csv";
-			Report.generateInventoryReport(filename, Query.getInventory(connection));
+			Report.generateInventoryReport(filename, QueryInventoryExtender.itemsWithinPallet(connection));
 			Report.openReport(filename);
 			
 			connection.close();
