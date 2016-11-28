@@ -1,6 +1,9 @@
 package team2.inventory.controller;
 
 import java.io.FileOutputStream;
+import java.io.IOException;
+
+import javax.print.PrintServiceLookup;
 
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
@@ -15,6 +18,7 @@ import team2.inventory.model.Inventory;
 public class BarcodeGenImage {
 
 	private static String saveLocation = "F:\\pdfsaves\\";
+	private static String adobeLocation = "C:\\Program Files (x86)\\Adobe\\Reader 11.0\\Reader\\AcroRd32.exe";
 	private static String manufactureID = "987654";
 	
 	/** Public method to create a new Pallet.
@@ -68,5 +72,12 @@ public class BarcodeGenImage {
 				docWriter.close();
 			}
 		}
+	}
+	
+	public static void printBarcode(Inventory inventory) throws IOException {
+		String fileLocation = saveLocation + inventory.getId() + ".pdf";
+		String defaultPrinterName = PrintServiceLookup.lookupDefaultPrintService().getName();
+		String adobePrintCommand = adobeLocation + " /t \"" + fileLocation + "\" \"" + defaultPrinterName + "\"";
+		Runtime.getRuntime().exec(adobePrintCommand);
 	}
 }
