@@ -251,11 +251,21 @@ public class Query {
 	 * @param barcodeMap Current Integer-to-Barcode map.
 	 * @param companyMap Current Integer-to-Company map.
 	 * @throws SQLException Thrown on any SQL Error.
-	 * @return Map */
+	 * @return Item */
 	public static Item getItemByID(Connection connection, int id, Map<Integer, Barcode> barcodeMap, Map<Integer, Company> companyMap) throws SQLException {
 		String sqlQuery = "SELECT * FROM `Item` WHERE `Item`.`ID`=" + id;
 		ResultSet resultSet = Connector.getResultSet(connection, sqlQuery);
 		return ResultSetParser.toItemMap(resultSet, barcodeMap, companyMap).get(id);
+	}
+	
+	/** Helper method to retrieve a single item on database in a map of ID-to-Item based on ID.
+	 * Internally generates Barcode and Company maps.
+	 * @param connection Database connection.
+	 * @param id ID to search for.
+	 * @throws SQLException Thrown on any SQL Error.
+	 * @return Item */
+	public static Item getItemByID(Connection connection, int id) throws SQLException {
+		return getItemByID(connection, id, Query.getBarcodes(connection), Query.getCompanies(connection));
 	}
 	
 	/** Retrieves a single item on database in a map of ID-to-Item based on Name.
