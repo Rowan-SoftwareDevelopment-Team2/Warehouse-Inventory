@@ -3,6 +3,7 @@ package team2.inventory.controller.database;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import team2.inventory.controller.BarcodeGenImage;
 import team2.inventory.model.Barcode;
 import team2.inventory.model.Company;
 import team2.inventory.model.Inventory;
@@ -75,6 +76,16 @@ public class Inserter {
 		sqlQuery += (inventory.getBarcode() == null) ? "NULL)" : "'" + inventory.getBarcode().getId() + "')";
 		Connector.getResultSet(connection, sqlQuery);
 		inventory.setId(Query.getInventoryLastInserted(connection).getId());
+
+		if(inventory.getType()==2) {
+			// Create barcode and barcode image.
+			Barcode barcode = new Barcode(0, BarcodeGenImage.generateBarcode(inventory));
+			Inserter.insert(connection, barcode);
+			
+			// Update database with new barcode.
+			inventory.setBarcode(barcode);
+			Updater.update(connection, inventory);
+		}
 	}
 
 }

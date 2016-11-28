@@ -20,9 +20,11 @@ public class DatabaseTestDriver {
 		try {
 			Connection connection = Connector.createConnection(args[0], args[1], args[2]);
 			
-			String filename = "F:\\Desktop\\test.csv";
+			System.out.println(QueryInventoryExtender.palletsOnly(connection));
+			
+			/*String filename = "F:\\Desktop\\test.csv";
 			Report.generateInventoryReport(filename, QueryInventoryExtender.itemsWithinPallet(connection));
-			Report.openReport(filename);
+			Report.openReport(filename);*/
 			
 			connection.close();
 		} catch (SQLException e) {
