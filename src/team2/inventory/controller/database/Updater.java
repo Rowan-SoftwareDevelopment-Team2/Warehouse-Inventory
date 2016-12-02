@@ -1,6 +1,7 @@
 package team2.inventory.controller.database;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.SQLException;
 
 import team2.inventory.model.Barcode;
@@ -35,6 +36,35 @@ public class Updater {
 		String sqlQuery = "UPDATE `Location` SET `Description`='" + location.getDescription() + "', `Aisle`='" + location.getAisle() 
 		+ "', `Row`='" + location.getRow() + "' WHERE `ID`=" + location.getId();
 		Connector.getResultSet(connection, sqlQuery);
+	}
+	
+	/** Moves Inventory to a new location.
+	 * @param connection Database connection.
+	 * @param inventory Inventory to move.
+	 * @param location Location to move to.
+	 * @throws SQLException Thrown on any SQL Error. */
+	public static void moveInventory(Connection connection, Inventory inventory, Location location) throws SQLException {
+		inventory.setLocation(location);
+		update(connection, inventory);
+	}
+	
+	/** Ships inventory today.
+	 * @param connection Database connection.
+	 * @param inventory Inventory to ship.
+	 * @throws SQLException Thrown on any SQL Error. */
+	public static void shipInventory(Connection connection, Inventory inventory) throws SQLException {
+		shipInventory(connection, inventory, new Date(new java.util.Date().getTime()));
+	}
+
+	/** Ships inventory on a given date
+	 * @param connection Database connection.
+	 * @param inventory Inventory to ship.
+	 * @param shipped Date to ship on.
+	 * @throws SQLException Thrown on any SQL Error. */
+	public static void shipInventory(Connection connection, Inventory inventory, Date shipped) throws SQLException {
+		inventory.setLocation(null);
+		inventory.setShipped(shipped);
+		update(connection, inventory);
 	}
 
 	public static void update(Connection connection, User user) throws SQLException {

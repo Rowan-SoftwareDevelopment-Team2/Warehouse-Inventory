@@ -51,6 +51,17 @@ public class DatabaseTestDriver {
 			// Report.generateInventoryReport(filename2, Query.getInventory(connection));
 			// Report.openReport(filename2);
 			
+			
+			// Move inventory to location
+			// Inventory inventory = Query.getInventoryByID(connection, 30);
+			// Location location = Query.getLocationByID(connection, 13);
+			// Updater.moveInventory(connection, inventory, location);
+			
+			
+			// Ship Inventory
+			// Inventory inventory = Query.getInventoryByID(connection, 27);
+			// Updater.shipInventory(connection, inventory);
+			
 			connection.close();
 		} catch (SQLException e) {
 			System.err.println(e.getMessage());
