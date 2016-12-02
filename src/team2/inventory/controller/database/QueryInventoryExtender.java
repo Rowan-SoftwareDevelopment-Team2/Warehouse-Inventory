@@ -5,11 +5,17 @@ import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import team2.inventory.controller.database.Query.Helper;
+import team2.inventory.model.Barcode;
+import team2.inventory.model.Company;
 import team2.inventory.model.Inventory;
+import team2.inventory.model.Item;
 
+/** Database extended query methods. Used for Inventory table mostly.
+ * @author James A. Donnell Jr. */
 public class QueryInventoryExtender {
 
 	public static Map<Integer, Inventory> merge(Map<Integer, Inventory> first, Map<Integer, Inventory> second) {
@@ -82,6 +88,61 @@ public class QueryInventoryExtender {
 	
 	public static Map<Integer, Inventory> itemsNotWithinPallet(Connection connection) throws SQLException {
 		String sqlQuery = "SELECT * FROM `Inventory` WHERE `Inventory`.`Parent` IS NULL";
+		ResultSet resultSet = Connector.getResultSet(connection, sqlQuery);
+		return Helper.toInventoryMap(connection, resultSet);
+	}
+	
+	/** For Inventory Search Bar. Searches item names and company names.
+	 * @param connection Database connection.
+	 * @param searchString String to search for.
+	 * @throws SQLException Thrown on any SQL Error.
+	 * @return Map */
+	public static Map<Integer, Inventory> searchBar(Connection connection, String searchString) throws SQLException {
+		return merge(searchBarByItem(connection, searchString), searchBarByCompany(connection, searchString));
+	}
+	
+	/** Sub-method for Inventory Search bar. Searches item names.
+	 * @param connection Database connection.
+	 * @param searchString String to search for.
+	 * @throws SQLException Thrown on any SQL Error.
+	 * @return Map */
+	private static Map<Integer, Inventory> searchBarByItem(Connection connection, String searchString) throws SQLException {
+		Map<Integer, Item> itemMap = Query.getItemsByName(connection, searchString, Query.getBarcodes(connection), Query.getCompanies(connection));
+		return searchBarByItemMap(connection, itemMap);
+	}
+	
+	/** Sub-method for Inventory Search bar. Searches company names.
+	 * @param connection Database connection.
+	 * @param searchString String to search for.
+	 * @throws SQLException Thrown on any SQL Error.
+	 * @return Map */
+	private static Map<Integer, Inventory> searchBarByCompany(Connection connection, String searchString) throws SQLException {
+		Map<Integer, Company> companyMap = Query.getCompaniesByName(connection, searchString);
+		Map<Integer, Item> itemMap = new HashMap<Integer, Item>();
+		
+		Map<Integer, Barcode> tempBarcodeMap = Query.getBarcodes(connection);
+		Map<Integer, Company> tempCompanyMap = Query.getCompanies(connection);
+		for(Company company : companyMap.values())
+			itemMap.putAll(Query.getItemsByManufacturer(connection, company.getId(), tempBarcodeMap, tempCompanyMap));
+		
+		return searchBarByItemMap(connection, itemMap);
+	}
+	
+	/** Helper for Inventory Search bar. Searches for Inventory of certain Items.
+	 * @param connection Database connection.
+	 * @param itemMap Map of items to search for.
+	 * @throws SQLException Thrown on any SQL Error.
+	 * @return Map */
+	private static Map<Integer, Inventory> searchBarByItemMap(Connection connection, Map<Integer, Item> itemMap) throws SQLException {
+		Iterator<Item> it = itemMap.values().iterator();
+		
+		if(!it.hasNext())
+			return new HashMap<Integer, Inventory>();
+		
+		String sqlQuery = "SELECT * FROM `Inventory` WHERE `Inventory`.`Item`=" + it.next().getId();
+		while(it.hasNext())
+			sqlQuery += " OR `Inventory`.`Item`=" + it.next().getId();
+		
 		ResultSet resultSet = Connector.getResultSet(connection, sqlQuery);
 		return Helper.toInventoryMap(connection, resultSet);
 	}
