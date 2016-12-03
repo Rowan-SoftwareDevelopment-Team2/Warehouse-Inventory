@@ -17,7 +17,7 @@ import team2.inventory.model.Inventory;
 
 public class BarcodeGenImage {
 
-	private static String saveLocation = "F:\\pdfsaves\\";
+	private static String saveLocation = StartupDriver.saveLocation + "barcodes\\";
 	private static String adobeLocation = "C:\\Program Files (x86)\\Adobe\\Reader 11.0\\Reader\\AcroRd32.exe";
 	private static String manufactureID = "987654";
 	

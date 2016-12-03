@@ -12,17 +12,29 @@ public class Connector {
 	/** MariaDB JDBC database prefix. */
 	private static String prefix = "jdbc:mariadb://";
 	/** Database hostname. */
-	private static String hostname = "warehouse.jdweb.info";
+	private static String defaultHostname = "warehouse.jdweb.info";
 	/** Database port. */
-	private static String port = "3306";
+	private static String defaultPort = "3306";
 	
-	/** Creates a database connection.
+	/** Creates a database connection with default host and port.
 	 * @param table Database table to create connection on.
 	 * @param username Database username.
 	 * @param password Database password.
 	 * @return Connection
 	 * @throws SQLException Error if issues with connection. */
 	public static Connection createConnection(String table, String username, String password) throws SQLException {
+		return createConnection(defaultHostname, defaultPort, table, username, password);
+	}
+	
+	/** Creates a database connection.
+	 * @param hostname Server hostname.
+	 * @param port Server port.
+	 * @param table Database table to create connection on.
+	 * @param username Database username.
+	 * @param password Database password.
+	 * @return Connection
+	 * @throws SQLException Error if issues with connection. */
+	public static Connection createConnection(String hostname, String port, String table, String username, String password) throws SQLException {
 		String connectionString = prefix + hostname + ":" + port + "/" + table + "?user=" + username + "&password=" + password;
 		return DriverManager.getConnection(connectionString);
 	}
@@ -37,5 +49,13 @@ public class Connector {
 		ResultSet result = statement.executeQuery(sqlQuery);
 		statement.close();
 		return result;
+	}
+	
+	public static String getDefaultHostname() {
+		return defaultHostname;
+	}
+	
+	public static String getDefaultPort() {
+		return defaultPort;
 	}
 }
