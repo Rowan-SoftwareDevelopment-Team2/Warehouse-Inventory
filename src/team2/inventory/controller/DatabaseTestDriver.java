@@ -8,7 +8,6 @@ import javax.print.PrintException;
 
 import team2.inventory.controller.Login.LoginException;
 import team2.inventory.controller.database.Connector;
-import team2.inventory.controller.database.QueryInventoryExtender;
 
 /** Database testing driver.
  * @author James A. Donnell Jr. */
@@ -66,7 +65,10 @@ public class DatabaseTestDriver {
 			
 			// Search bar:
 			// Use this method for your search bar.
-			System.out.println(QueryInventoryExtender.searchBar(connection, "Angel"));
+			// System.out.println(QueryInventoryExtender.searchBar(connection, "Angel"));
+			
+			
+			// new CustomReportGUI(connection);
 			
 			connection.close();
 		} catch (SQLException e) {

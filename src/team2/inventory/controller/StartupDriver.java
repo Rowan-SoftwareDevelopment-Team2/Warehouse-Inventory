@@ -17,7 +17,7 @@ public class StartupDriver {
 	/** Configuration file name. */
 	private static final String configFile = "db.config";
 	/** Save location, dynamic to device. */
-	protected static String saveLocation = System.getenv("appdata") + "\\WIMS\\";
+	public static String saveLocation = System.getenv("appdata") + "\\WIMS\\";
 
 	/** Main method, creates connection and opens GUI.
 	 * @param args Not utilized

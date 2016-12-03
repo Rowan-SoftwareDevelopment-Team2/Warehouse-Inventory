@@ -51,10 +51,14 @@ public class Connector {
 		return result;
 	}
 	
+	/** Returns default hostname.
+	 * @return String */
 	public static String getDefaultHostname() {
 		return defaultHostname;
 	}
 	
+	/** Returns default port.
+	 * @return String */
 	public static String getDefaultPort() {
 		return defaultPort;
 	}

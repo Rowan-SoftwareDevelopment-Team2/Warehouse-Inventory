@@ -24,8 +24,8 @@ public class Report {
 		bw.write("id,Name,Manufacturer,Barcode,Description");
 		for(Item item : map.values()) {
 			bw.newLine();
-			bw.write(item.getId() + delim + item.getName() + delim + item.getManufacturer().getName()
-					+ delim + item.getBarcode().getBarcode() + delim + item.getDescription());
+			bw.write(item.getId() + delim + item.getName() + delim + item.getManufacturer().getName().replace(delim, " ")
+					+ delim + item.getBarcode().getBarcode() + delim + item.getDescription().replace(delim, " "));
 		}
 		bw.close();
 	}
@@ -45,7 +45,7 @@ public class Report {
 		bw.write("id,Name,Email,Phone,Address");
 		for(Company company : map.values()) {
 			bw.newLine();
-			bw.write(company.getId() + delim + company.getName() + delim + company.getEmail() 
+			bw.write(company.getId() + delim + company.getName().replace(delim, " ") + delim + company.getEmail() 
 			+ delim + company.getPhone() + delim + company.getAddress().replace(delim, " ").replace("\n", " "));
 		}
 		bw.close();

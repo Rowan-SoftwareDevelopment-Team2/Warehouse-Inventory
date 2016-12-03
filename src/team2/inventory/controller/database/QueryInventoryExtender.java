@@ -18,6 +18,10 @@ import team2.inventory.model.Item;
  * @author James A. Donnell Jr. */
 public class QueryInventoryExtender {
 
+	/** Merges two Inventory Maps together.
+	 * @param first First map merge.
+	 * @param second Second map to merge.
+	 * @return Map */
 	public static Map<Integer, Inventory> merge(Map<Integer, Inventory> first, Map<Integer, Inventory> second) {
 		Map<Integer, Inventory> result = new HashMap<Integer, Inventory>(first);
 		result.putAll(second);

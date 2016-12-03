@@ -56,7 +56,7 @@ public class Updater {
 		shipInventory(connection, inventory, new Date(new java.util.Date().getTime()));
 	}
 
-	/** Ships inventory on a given date
+	/** Ships inventory on a given date.
 	 * @param connection Database connection.
 	 * @param inventory Inventory to ship.
 	 * @param shipped Date to ship on.

@@ -1,5 +1,6 @@
 package team2.inventory.controller;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
@@ -20,7 +21,7 @@ public class BarcodeGenImage {
 	private static String saveLocation = StartupDriver.saveLocation + "barcodes\\";
 	private static String adobeLocation = "C:\\Program Files (x86)\\Adobe\\Reader 11.0\\Reader\\AcroRd32.exe";
 	private static String manufactureID = "987654";
-	
+
 	/** Public method to create a new Pallet.
 	 * Generated barcodeNumber is composed of Pallet ID and Manufacturer number.
 	 * 
@@ -39,6 +40,11 @@ public class BarcodeGenImage {
 		// BarcodeGenImage generateInvoice = new BarcodeGenImage();
 		Document doc = new Document();
 		PdfWriter docWriter = null;
+
+		// Verify folder exists, if not create it
+		File mainDir = new File(saveLocation);
+		if(!mainDir.exists())
+			mainDir.mkdirs();
 
 		try {
 			//This filepath needs to be changed accordingly
@@ -73,7 +79,7 @@ public class BarcodeGenImage {
 			}
 		}
 	}
-	
+
 	public static void printBarcode(Inventory inventory) throws IOException {
 		String fileLocation = saveLocation + inventory.getId() + ".pdf";
 		String defaultPrinterName = PrintServiceLookup.lookupDefaultPrintService().getName();
