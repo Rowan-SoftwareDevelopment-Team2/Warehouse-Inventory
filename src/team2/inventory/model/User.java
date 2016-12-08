@@ -1,19 +1,28 @@
 package team2.inventory.model;
 
+import team2.inventory.controller.Login;
+
 /** User class.
  * @author James A. Donnell Jr. */
 public class User {
 	
 	/** User Information. */
-	private int id, privelages;
+	private int id, privileges;
 	/** User Information. */
-	private String username, password, realname;
+	private String username, hash, realname;
 
-	public User(int id, String username, String password, String realname, int privelages) {
+	public User(int id, String username, String password, String realname, int privilages) {
 		this.id = id;
-		this.privelages = privelages;
+		this.privileges = privilages;
 		this.username = username;
-		this.password = password;
+		this.hash = Login.hashPassword(password);
+		this.realname = realname;
+	}
+	
+	public User(int id, String username, String realname, int privilages) {
+		this.id = id;
+		this.privileges = privilages;
+		this.username = username;
 		this.realname = realname;
 	}
 
@@ -25,12 +34,12 @@ public class User {
 		this.id = id;
 	}
 
-	public int getPrivelages() {
-		return privelages;
+	public int getPrivileges() {
+		return privileges;
 	}
 
-	public void setPrivelages(int privelages) {
-		this.privelages = privelages;
+	public void setPrivileges(int privelages) {
+		this.privileges = privelages;
 	}
 
 	public String getUsername() {
@@ -41,12 +50,16 @@ public class User {
 		this.username = username;
 	}
 
-	public String getPassword() {
-		return password;
+	public String getHash() {
+		return hash;
 	}
 
 	public void setPassword(String password) {
-		this.password = password;
+		this.hash = Login.hashPassword(password);
+	}
+	
+	public void setHash(String hash) {
+		this.hash = hash;
 	}
 
 	public String getRealname() {
@@ -58,6 +71,6 @@ public class User {
 	}
 	
 	public String toString() {
-		return "[" + username + ", " + password + ", " + realname + ", " + privelages + "]";
+		return "[" + username + ", " + hash + ", " + realname + ", " + privileges + "]";
 	}
 }
