@@ -1,5 +1,6 @@
 package team2.inventory.controller;
 
+import java.awt.print.PrinterException;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -8,6 +9,8 @@ import javax.print.PrintException;
 
 import team2.inventory.controller.Login.LoginException;
 import team2.inventory.controller.database.Connector;
+import team2.inventory.controller.database.QueryInventoryExtender;
+import team2.inventory.model.Inventory;
 
 /** Database testing driver.
  * @author James A. Donnell Jr. */
@@ -21,13 +24,13 @@ public class DatabaseTestDriver {
 	public static void main(String[] args) throws LoginException, IOException, PrintException {
 		try {
 			Connection connection = Connector.createConnection(args[0], args[1], args[2]);
-			
+
 			// How to create a new pallet Inventory
 			// This will create a pallet, create a unique ID, generate a barcode, and save the barcode PDF for later printing.
 			// Inventory inventory = new Inventory(0, null, 0, null, 2, 0, null, null, Query.getLocationByDescription(connection, "Dock"), null);
 			// Inserter.insert(connection, inventory);
-			
-			
+
+
 			// How to create a new item Inventory
 			// Creates inventory of Item (id 40) from supplier JD Supply (id of 10)
 			// Barcode stays null, barcode should be found in Item, not inventory, for item ItemTypes.
@@ -36,8 +39,8 @@ public class DatabaseTestDriver {
 			// Inventory inventory = new Inventory(0, Query.getItemByID(connection, 40),
 			//		999, Query.getCompanyByID(connection, 10), 1, 0, Date.valueOf("2016-11-28"), null, Query.getLocationByDescription(connection, "Dock"), null);
 			// Inserter.insert(connection, inventory);
-			
-			
+
+
 			// How to generate a report
 			// Use any Query, send it to Report.generate???Report()
 			// Open it using Report.openReport()
@@ -50,28 +53,33 @@ public class DatabaseTestDriver {
 			// String filename2 = "F:\\Desktop\\test2.csv";
 			// Report.generateInventoryReport(filename2, Query.getInventory(connection));
 			// Report.openReport(filename2);
-			
-			
+
+
 			// Move inventory to location
 			// Inventory inventory = Query.getInventoryByID(connection, 30);
 			// Location location = Query.getLocationByID(connection, 13);
 			// Updater.moveInventory(connection, inventory, location);
-			
-			
+
+
 			// Ship Inventory
 			// Inventory inventory = Query.getInventoryByID(connection, 27);
 			// Updater.shipInventory(connection, inventory);
-			
-			
+
+
 			// Search bar:
 			// Use this method for your search bar.
 			// System.out.println(QueryInventoryExtender.searchBar(connection, "Angel"));
-			
-			
+
+
 			// new CustomReportGUI(connection);
-			
+
+			// Print a barcode
+			Inventory pallet = QueryInventoryExtender.palletsOnly(connection).values().iterator().next();
+			// BarcodeGenImage.generateBarcode(pallet); // only used for testing, should be generated locally if inserted.
+			BarcodeGenImage.printBarcode(pallet);
+
 			connection.close();
-		} catch (SQLException e) {
+		} catch (SQLException | PrinterException e) {
 			System.err.println(e.getMessage());
 		}
 	}
