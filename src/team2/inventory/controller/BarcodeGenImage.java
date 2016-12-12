@@ -83,8 +83,11 @@ public class BarcodeGenImage {
 	}
 
 	public static void printBarcode(Inventory inventory) throws IOException, PrinterException {
-		String fileLocation = saveLocation + inventory.getId() + ".pdf";
-		PDDocument document = PDDocument.load(new File(fileLocation));
+		File file = new File(saveLocation + inventory.getId() + ".pdf");
+		if(!file.exists())
+			makeBarcodePDF(manufactureID + inventory.getId(), inventory.getId() + ".pdf");
+		
+		PDDocument document = PDDocument.load(file);
 
 		PrinterJob job = PrinterJob.getPrinterJob();
 		job.setPageable(new PDFPageable(document));
