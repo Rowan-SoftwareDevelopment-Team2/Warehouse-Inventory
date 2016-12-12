@@ -150,4 +150,15 @@ public class QueryInventoryExtender {
 		ResultSet resultSet = Connector.getResultSet(connection, sqlQuery);
 		return Helper.toInventoryMap(connection, resultSet);
 	}
+	
+	public static Map<Integer, Item> searchBarItem(Connection connection, String searchString) throws SQLException {
+		Map<Integer, Barcode> tempBarcodeMap = Query.getBarcodes(connection);
+		Map<Integer, Company> tempCompanyMap = Query.getCompanies(connection);
+		
+		Map<Integer, Item> result = new HashMap<Integer, Item>();
+		result.putAll(Query.getItemsByName(connection, searchString, tempBarcodeMap, tempCompanyMap));
+		result.putAll(Query.getItemsByDescription(connection, searchString, tempBarcodeMap, tempCompanyMap));
+		return result;
+	}
+	
 }
