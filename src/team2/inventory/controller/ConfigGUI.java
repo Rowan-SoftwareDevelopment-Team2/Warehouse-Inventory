@@ -32,12 +32,12 @@ public class ConfigGUI extends javax.swing.JFrame {
 		JPanel panel = new JPanel();
 		JLabel hostLabel = new JLabel("Host:");
 		JLabel portLabel = new JLabel("Port:");
-		JLabel tableLabel = new JLabel("Table:");
+		JLabel databaseLabel = new JLabel("Database:");
 		JLabel userLabel = new JLabel("Username:");
 		JLabel passLabel = new JLabel("Password:");
 		JTextField hostText = new JTextField(Connector.getDefaultHostname(), 20);
 		JTextField portText = new JTextField(Connector.getDefaultPort(), 5);
-		JTextField tableText = new JTextField(20);
+		JTextField databaseText = new JTextField(20);
 		JTextField userText = new JTextField(20);
 		JTextField passText = new JTextField(20);
 		
@@ -45,15 +45,15 @@ public class ConfigGUI extends javax.swing.JFrame {
 		panel.add(hostText);
 		panel.add(portLabel);
 		panel.add(portText);
-		panel.add(tableLabel);
-		panel.add(tableText);
+		panel.add(databaseLabel);
+		panel.add(databaseText);
 		panel.add(userLabel);
 		panel.add(userText);
 		panel.add(passLabel);
 		panel.add(passText);
 		
 		JButton button = new JButton("Save");
-		button.addActionListener(new CustomButtonListener(hostText, portText, tableText, userText, passText, file, this));
+		button.addActionListener(new CustomButtonListener(hostText, portText, databaseText, userText, passText, file, this));
 		panel.add(button);
 		
 		add(panel);
@@ -69,14 +69,14 @@ public class ConfigGUI extends javax.swing.JFrame {
 	
 	private class CustomButtonListener implements ActionListener {
 
-		private JTextField hostText, portText, tableText, userText, passText;
+		private JTextField hostText, portText, databaseText, userText, passText;
 		private File file;
 		private ConfigGUI configGUI;
 		
-		public CustomButtonListener(JTextField hostText, JTextField portText, JTextField tableText, JTextField userText, JTextField passText, File file, ConfigGUI configGUI) {
+		public CustomButtonListener(JTextField hostText, JTextField portText, JTextField databaseText, JTextField userText, JTextField passText, File file, ConfigGUI configGUI) {
 			this.hostText = hostText;
 			this.portText = portText;
-			this.tableText = tableText;
+			this.databaseText = databaseText;
 			this.userText = userText;
 			this.passText = passText;
 			this.file = file;
@@ -88,7 +88,7 @@ public class ConfigGUI extends javax.swing.JFrame {
 				BufferedWriter bw = new BufferedWriter(new FileWriter(file));
 				bw.write(hostText.getText() + "\n");
 				bw.write(portText.getText() + "\n");
-				bw.write(tableText.getText() + "\n");
+				bw.write(databaseText.getText() + "\n");
 				bw.write(userText.getText() + "\n");
 				bw.write(passText.getText());
 				bw.close();
