@@ -118,8 +118,7 @@ public class NewItemPopUp extends JFrame{
 							&& !itemDescription.equals("") && !itemName.equals("")){
 						//if all are valid insert information to database
 						//and add a new item
-						Barcode b = new Barcode(0, itemBarcode);
-						Inserter.insert(connection, b);
+						Inserter.insert(connection, barcode);
 						company = temp.getChosenCompany();
 						item = new Item(0,itemName,company, barcode, itemDescription);
 						Inserter.insert(connection, item);
@@ -137,6 +136,7 @@ public class NewItemPopUp extends JFrame{
 				} catch (SQLException | NullPointerException e1) {
 					//Message to show error if any input is invalid
 					JOptionPane.showMessageDialog(contentPane, "A field was left as null", "Null Pointer Exception", JOptionPane.ERROR_MESSAGE);
+					e1.printStackTrace();
 					NewItemPopUp temp = new NewItemPopUp(connection, fromScanner);
 					dispose();
 					temp.setVisible(true);

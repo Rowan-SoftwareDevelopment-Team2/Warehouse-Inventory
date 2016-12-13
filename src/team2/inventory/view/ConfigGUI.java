@@ -55,6 +55,8 @@ public class ConfigGUI extends javax.swing.JFrame {
 		button.addActionListener(new CustomButtonListener(hostText, portText, tableText, userText, passText, file, this));
 		panel.add(button);
 		
+		getRootPane().setDefaultButton(button);
+		
 		add(panel);
 		pack();
 		setVisible(true);
