@@ -1,6 +1,5 @@
 package team2.inventory.controller;
 
-import java.awt.print.PrinterException;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -9,8 +8,7 @@ import javax.print.PrintException;
 
 import team2.inventory.controller.Login.LoginException;
 import team2.inventory.controller.database.Connector;
-import team2.inventory.controller.database.QueryInventoryExtender;
-import team2.inventory.model.Inventory;
+import team2.inventory.controller.database.Query;
 
 /** Database testing driver.
  * @author James A. Donnell Jr. */
@@ -66,20 +64,20 @@ public class DatabaseTestDriver {
 			// Updater.shipInventory(connection, inventory);
 
 
-			// Search bar:
+			// Search bar
 			// Use this method for your search bar.
 			// System.out.println(QueryInventoryExtender.searchBar(connection, "Angel"));
 
-
-			// new CustomReportGUI(connection);
-
+			
 			// Print a barcode
-			Inventory pallet = QueryInventoryExtender.palletsOnly(connection).values().iterator().next();
+			// Inventory pallet = QueryInventoryExtender.palletsOnly(connection).values().iterator().next();
 			// BarcodeGenImage.generateBarcode(pallet); // only used for testing, should be generated locally if inserted.
-			BarcodeGenImage.printBarcode(pallet);
+			// BarcodeGenImage.printBarcode(pallet);
+			
+			System.out.println(Query.getInventory(connection));
 
 			connection.close();
-		} catch (SQLException | PrinterException e) {
+		} catch (SQLException e) {
 			System.err.println(e.getMessage());
 		}
 	}
