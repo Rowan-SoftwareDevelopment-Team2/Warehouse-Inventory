@@ -14,7 +14,7 @@ import team2.inventory.model.User;
  * @author James A. Donnell Jr. */
 public class Login {
 
-	protected static User login(Connection connection, String username, String password) throws SQLException, LoginException {
+	public  static User login(Connection connection, String username, String password) throws SQLException, LoginException {
 		String hashed = hashPassword(password);
 		try {
 			User user = Query.getUserByUsername(connection, username);

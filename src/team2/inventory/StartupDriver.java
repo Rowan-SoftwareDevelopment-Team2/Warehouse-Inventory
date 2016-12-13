@@ -1,4 +1,4 @@
-package team2.inventory.controller;
+package team2.inventory;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -8,7 +8,8 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 import team2.inventory.controller.database.Connector;
-import team2.inventory.controller.database.Query;
+import team2.inventory.view.ConfigGUI;
+import team2.inventory.view.WelcomeScreen;
 
 /** Startup Driver.
  * @author James A. Donnell Jr. */
@@ -24,10 +25,9 @@ public class StartupDriver {
 	 * @throws SQLException TODO handle later. */
 	public static void main(String[] args) throws SQLException {
 		Connection connection = getConnection();
-		System.out.println(Query.getInventory(connection));
-		
-		// Call trevor's GUI with the created connection here
-		connection.close();
+
+		@SuppressWarnings("unused")
+		WelcomeScreen newRun = new WelcomeScreen(connection);
 	}
 
 	/** Gets connection and verifies folder structure exists.
@@ -47,7 +47,6 @@ public class StartupDriver {
 		try {
 			return parseConfig(config);
 		} catch (SQLException | IOException e) {
-			// TODO handle exception
 			e.printStackTrace();
 			return null;
 		}

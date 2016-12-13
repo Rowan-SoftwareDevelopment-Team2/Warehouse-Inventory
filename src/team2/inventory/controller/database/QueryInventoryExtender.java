@@ -161,4 +161,24 @@ public class QueryInventoryExtender {
 		return result;
 	}
 	
+	public static Map<Integer, Inventory> getOrderedList(Connection connection) throws SQLException{
+		Map<Integer, Inventory> result = new HashMap<Integer, Inventory>();
+		Map<Integer, Inventory> pallets = palletsOnly(connection);
+		Iterator<Inventory> it = pallets.values().iterator();
+		Iterator<Inventory> child;
+		Inventory i = null;
+		while(it.hasNext()){
+			i = it.next();
+			result.put(result.size(), i);
+			child = Query.getInventoryByParent(connection, i.getId()).values().iterator();
+			while(child.hasNext()){
+				i = child.next();
+				result.put(result.size(), i);
+			}
+			if(it.hasNext()){
+				result.put(result.size(), null);
+			}
+		}
+		return result ;		
+	}	
 }

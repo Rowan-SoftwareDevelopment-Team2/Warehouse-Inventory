@@ -16,12 +16,13 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 
+import team2.inventory.StartupDriver;
 import team2.inventory.controller.Report;
-import team2.inventory.controller.StartupDriver;
 import team2.inventory.controller.database.Query;
 import team2.inventory.controller.database.QueryInventoryExtender;
 import team2.inventory.model.Inventory;
@@ -29,7 +30,7 @@ import team2.inventory.model.Inventory;
 public class CustomReportGUI extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	private static String saveLocation = StartupDriver.saveLocation + "report\\report.csv";
+	private static String saveLocation = StartupDriver.saveLocation + "report\\";
 	private static final String[] months = {"January", "Febuary", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
 
 	public CustomReportGUI(Connection connection) {
@@ -187,8 +188,8 @@ public class CustomReportGUI extends JFrame {
 
 		public void actionPerformed(ActionEvent e) {
 			try {
-				Report.generateCompanyReport(saveLocation, Query.getCompanies(connection));
-				Report.openReport(saveLocation);
+				Report.generateCompanyReport(saveLocation + "report.csv", Query.getCompanies(connection));
+				Report.openReport(saveLocation + "report.csv");
 			} catch (IOException | SQLException e1) {
 				e1.printStackTrace();
 			}
@@ -208,8 +209,8 @@ public class CustomReportGUI extends JFrame {
 
 		public void actionPerformed(ActionEvent e) {
 			try {
-				Report.generateItemReport(saveLocation, Query.getItems(connection, Query.getBarcodes(connection), Query.getCompanies(connection)));
-				Report.openReport(saveLocation);
+				Report.generateItemReport(saveLocation+ "report.csv", Query.getItems(connection, Query.getBarcodes(connection), Query.getCompanies(connection)));
+				Report.openReport(saveLocation+ "report.csv");
 			} catch (IOException | SQLException e1) {
 				e1.printStackTrace();
 			}
@@ -262,19 +263,16 @@ public class CustomReportGUI extends JFrame {
 					query = QueryInventoryExtender.shippedAfter(connection, Date.valueOf(date5));
 					break;
 				}
-			} catch (SQLException sql) {
-				sql.printStackTrace();
+				try {
+					Report.generateInventoryReport(saveLocation+ "report.csv", query);
+					Report.openReport(saveLocation+ "report.csv");
+					frame.dispose();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+			} catch (SQLException | IllegalArgumentException sql) {
+				JOptionPane.showMessageDialog(rootPane, "Null in field", "Null Pointer Exception", JOptionPane.ERROR_MESSAGE);
 			}
-
-			try {
-				Report.generateInventoryReport(saveLocation, query);
-				Report.openReport(saveLocation);
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-
-			frame.dispose();
 		}
 	}
 }

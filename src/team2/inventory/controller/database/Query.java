@@ -48,7 +48,9 @@ public class Query {
 	 * @throws SQLException Thrown on any SQL Error.
 	 * @return Barcode */
 	public static Barcode getBarcodeByBarcode(Connection connection, String barcodeSearch) throws SQLException {
-		return getBarcodesByBarcode(connection, barcodeSearch).values().iterator().next();
+		String sqlQuery = "SELECT * FROM `Barcode` WHERE `Barcode`.`Barcode`='" + barcodeSearch + "'";
+		ResultSet resultSet = Connector.getResultSet(connection, sqlQuery);
+		return ResultSetParser.toBarcodeMap(resultSet).values().iterator().next();
 	}
 
 	/** Retrieves all barcodes on database in a map of ID-to-Barcode.
@@ -243,6 +245,15 @@ public class Query {
 		String sqlQuery = "SELECT * FROM `Item` WHERE `Item`.`Description` LIKE '%" + description + "%'";
 		ResultSet resultSet = Connector.getResultSet(connection, sqlQuery);
 		return ResultSetParser.toItemMap(resultSet, barcodeMap, companyMap);
+	}
+	
+	/** Retrieves an Item on database by barcode string.
+	 * @param connection Database connection.
+	 * @param barcodeSearch Barcode to search for.
+	 * @throws SQLException Thrown on any SQL Error.
+	 * @return Item */
+	public static Item getItemByBarcode(Connection connection, Barcode barcodeSearch) throws SQLException {
+		return getItemsByBarcode(connection, barcodeSearch.getId(), getBarcodes(connection), getCompanies(connection)).values().iterator().next();
 	}
 
 	/** Retrieves a single item on database in a map of ID-to-Item based on ID.
@@ -595,6 +606,17 @@ public class Query {
 		ResultSet resultSet = Connector.getResultSet(connection, sqlQuery);
 		return Helper.toInventoryMap(connection, resultSet);
 	}
+	
+	/** Retrieves all Inventory entries on the database of a specified Barcode in a map of ID-to-Inventory.
+	 * @param connection Database connection.
+	 * @param barcodeID Barcode ID to search for.
+	 * @throws SQLException Thrown on any SQL Error.
+	 * @return Map */
+	public static Map<Integer, Inventory> getInventoryByBarcode(Connection connection, Map<Integer, Inventory> pallets, int barcodeID) throws SQLException {
+		String sqlQuery = "SELECT * FROM `Inventory` WHERE `Inventory`.`Type`= 2 AND `Inventory`.`Barcode`=" + barcodeID;
+		ResultSet resultSet = Connector.getResultSet(connection, sqlQuery);
+		return Helper.toInventoryMap(connection, resultSet);
+	}
 
 	/** Retrieves a single Inventory entry on the database based on ID.
 	 * @param connection Database connection.
@@ -616,6 +638,7 @@ public class Query {
 		ResultSet resultSet = Connector.getResultSet(connection, sqlQuery);
 		return Helper.toInventoryMap(connection, resultSet).values().iterator().next();
 	}
+	
 	
 	/** Query helper class.
 	 * @author James A. Donnell Jr. */

@@ -1,28 +1,41 @@
-import java.awt.EventQueue;
+package team2.inventory.view;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.SQLException;
+
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.SpringLayout;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
-import java.awt.Font;
-import javax.swing.JTextField;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
-
+import team2.inventory.controller.database.Inserter;
+import team2.inventory.model.Barcode;
+import team2.inventory.model.Company;
+import team2.inventory.model.Item;
+/** Creates a Popup to add a new item to the database
+ * @author Trevor Silva */
 public class NewItemPopUp extends JFrame{
 
-	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private static JPanel contentPane;
+	private static JLabel lblSelectedCompany ;
+	private SelectCompanyPopUp temp;
 
-	public NewItemPopUp() {
-		
+	public NewItemPopUp(Connection connection, boolean fromScanner) {
+		/**************************************
+		/	      Setup of the JPanel   	  /
+		/									  /
+		/*************************************/
+		super("New Item");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 517, 224);
 		contentPane = new JPanel();
@@ -31,79 +44,162 @@ public class NewItemPopUp extends JFrame{
 		SpringLayout springLayout = new SpringLayout();
 		contentPane.setLayout(springLayout);
 		
-		JLabel lblNewItem = new JLabel("New Item:");
-		springLayout.putConstraint(SpringLayout.NORTH, lblNewItem, 10, SpringLayout.NORTH, contentPane);
-		springLayout.putConstraint(SpringLayout.WEST, lblNewItem, 20, SpringLayout.WEST, contentPane);
-		lblNewItem.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		contentPane.add(lblNewItem);
-		
-		JLabel lblBarcode = new JLabel("Barcode:");
-		springLayout.putConstraint(SpringLayout.WEST, lblBarcode, 0, SpringLayout.WEST, lblNewItem);
-		contentPane.add(lblBarcode);
+		/**************************************
+		/	   JLabels for the contentPane	  /
+		/									  /
+		/*************************************/
+		JLabel lblName = new JLabel("Name:");
+		contentPane.add(lblName);
 		
 		JLabel lblManufacturer = new JLabel("Manufacturer:");
-		springLayout.putConstraint(SpringLayout.SOUTH, lblBarcode, -16, SpringLayout.NORTH, lblManufacturer);
-		springLayout.putConstraint(SpringLayout.WEST, lblManufacturer, 0, SpringLayout.WEST, lblNewItem);
 		contentPane.add(lblManufacturer);
 		
-		JLabel lblSupplier = new JLabel("Supplier:");
-		springLayout.putConstraint(SpringLayout.WEST, lblSupplier, 0, SpringLayout.WEST, lblNewItem);
-		contentPane.add(lblSupplier);
+		JLabel lblSelected = new JLabel("Selected:");
+		contentPane.add(lblSelected);
 		
-		textField = new JTextField();
-		springLayout.putConstraint(SpringLayout.NORTH, lblBarcode, -1, SpringLayout.NORTH, textField);
-		springLayout.putConstraint(SpringLayout.EAST, lblBarcode, -30, SpringLayout.WEST, textField);
-		springLayout.putConstraint(SpringLayout.WEST, textField, 114, SpringLayout.WEST, contentPane);
-		springLayout.putConstraint(SpringLayout.NORTH, textField, 53, SpringLayout.NORTH, contentPane);
-		textField.setText("");
-		contentPane.add(textField);
-		textField.setColumns(10);
-		
-		textField_1 = new JTextField();
-		springLayout.putConstraint(SpringLayout.NORTH, textField_1, 14, SpringLayout.SOUTH, textField);
-		springLayout.putConstraint(SpringLayout.NORTH, lblManufacturer, 3, SpringLayout.NORTH, textField_1);
-		springLayout.putConstraint(SpringLayout.EAST, textField_1, 0, SpringLayout.EAST, textField);
-		contentPane.add(textField_1);
-		textField_1.setColumns(10);
-		
-		textField_2 = new JTextField();
-		springLayout.putConstraint(SpringLayout.NORTH, textField_2, 12, SpringLayout.SOUTH, textField_1);
-		springLayout.putConstraint(SpringLayout.NORTH, lblSupplier, 3, SpringLayout.NORTH, textField_2);
-		springLayout.putConstraint(SpringLayout.EAST, textField_2, 0, SpringLayout.EAST, textField);
-		contentPane.add(textField_2);
-		textField_2.setColumns(10);
-		
-		JLabel lblDateArrived = new JLabel("Date Arrived:");
-		springLayout.putConstraint(SpringLayout.NORTH, lblDateArrived, 4, SpringLayout.NORTH, lblBarcode);
-		contentPane.add(lblDateArrived);
-		
-		textField_3 = new JTextField();
-		springLayout.putConstraint(SpringLayout.WEST, textField_3, 314, SpringLayout.WEST, contentPane);
-		springLayout.putConstraint(SpringLayout.EAST, lblDateArrived, -6, SpringLayout.WEST, textField_3);
-		springLayout.putConstraint(SpringLayout.SOUTH, textField_3, 0, SpringLayout.SOUTH, lblBarcode);
-		contentPane.add(textField_3);
-		textField_3.setColumns(10);
+		lblSelectedCompany = new JLabel("None");
+		contentPane.add(lblSelectedCompany);
 		
 		JLabel lblDescription = new JLabel("Description:");
-		springLayout.putConstraint(SpringLayout.WEST, lblDescription, 0, SpringLayout.WEST, lblDateArrived);
-		springLayout.putConstraint(SpringLayout.SOUTH, lblDescription, -59, SpringLayout.SOUTH, contentPane);
 		contentPane.add(lblDescription);
 		
-		textField_4 = new JTextField();
-		springLayout.putConstraint(SpringLayout.NORTH, textField_4, -3, SpringLayout.NORTH, lblDescription);
-		springLayout.putConstraint(SpringLayout.WEST, textField_4, 0, SpringLayout.WEST, textField_3);
-		contentPane.add(textField_4);
-		textField_4.setColumns(10);
+		JLabel lblBarcode = new JLabel("Barcode:");
+		contentPane.add(lblBarcode);
+
+		/**************************************
+		/	      Fields for input			  /
+		/									  /
+		/*************************************/
+		JTextField nameField = new JTextField();
+		contentPane.add(nameField);
+		nameField.setColumns(10);
+		
+		JTextField descriptionField = new JTextField();
+		contentPane.add(descriptionField);
+		descriptionField.setColumns(10);
+		
+		JTextField barcodeField = new JTextField();
+		if(ScanItemsPopUp.isFromScanned()){
+			//sets field to scanned barcode
+			barcodeField.setText(ScanItemsPopUp.getScannedBarcode());
+		}
+		contentPane.add(barcodeField);
+		barcodeField.setColumns(10);
+		
+		/**************************************
+		/	    Buttons for the actions 	  /
+		/									  /
+		/*************************************/
+		JButton btnSelectCompany = new JButton("Select Company");
+		btnSelectCompany.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//creates a new popup to select a company
+				temp = new SelectCompanyPopUp(connection, true);
+				temp.setVisible(true);
+			}
+		});
+		contentPane.add(btnSelectCompany);
 		
 		JButton btnEnter = new JButton("Enter");
-		springLayout.putConstraint(SpringLayout.SOUTH, btnEnter, -10, SpringLayout.SOUTH, contentPane);
-		springLayout.putConstraint(SpringLayout.EAST, btnEnter, -25, SpringLayout.EAST, contentPane);
 		contentPane.add(btnEnter);
 		btnEnter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				setVisible(false);
+				//grabs all item info from the input fields
+				String itemName, itemDescription, itemBarcode;
+				itemName = nameField.getText();
+				itemDescription = descriptionField.getText();
+				itemBarcode = barcodeField.getText();
+				Barcode barcode = new Barcode(0, itemBarcode);
+				Company company;
+				Item item;
+				try {
+					//checks to ensure that all input is valid
+					if(!itemBarcode.equals("") && !lblSelectedCompany.getText().equals("None") 
+							&& !itemDescription.equals("") && !itemName.equals("")){
+						//if all are valid insert information to database
+						//and add a new item
+						Barcode b = new Barcode(0, itemBarcode);
+						Inserter.insert(connection, b);
+						company = temp.getChosenCompany();
+						item = new Item(0,itemName,company, barcode, itemDescription);
+						Inserter.insert(connection, item);
+					} else{
+						//throw an exception if there is an invalid input
+						throw new NullPointerException();
+					}
+					if(fromScanner){
+						//if the item is being created from the scanner stage
+						//it will immediately call PalletSelection
+						dispose();
+						PalletSelectionPopUp temp = new PalletSelectionPopUp(connection, barcode, item);
+						temp.setVisible(true);
+					}
+				} catch (SQLException | NullPointerException e1) {
+					//Message to show error if any input is invalid
+					JOptionPane.showMessageDialog(contentPane, "A field was left as null", "Null Pointer Exception", JOptionPane.ERROR_MESSAGE);
+					NewItemPopUp temp = new NewItemPopUp(connection, fromScanner);
+					dispose();
+					temp.setVisible(true);
+				}
+				dispose();
 			}
 		});
-	}
+		
+		/**************************************
+		/	  Layout constraints for all 	  /
+		/	  components based on location	  /
+		/*************************************/
+		springLayout.putConstraint(SpringLayout.NORTH, lblName, 33, SpringLayout.NORTH, contentPane);
+		springLayout.putConstraint(SpringLayout.WEST, lblName, 20, SpringLayout.WEST, contentPane);
 
+		springLayout.putConstraint(SpringLayout.SOUTH, lblManufacturer, -56, SpringLayout.SOUTH, contentPane);
+		springLayout.putConstraint(SpringLayout.WEST, lblManufacturer, 0, SpringLayout.WEST, lblName);
+
+		springLayout.putConstraint(SpringLayout.NORTH, lblSelected, 0, SpringLayout.NORTH, btnEnter);
+		springLayout.putConstraint(SpringLayout.EAST, lblSelected, 0, SpringLayout.EAST, lblManufacturer);
+
+		springLayout.putConstraint(SpringLayout.NORTH, lblSelectedCompany, 0, SpringLayout.NORTH, lblSelected);
+		springLayout.putConstraint(SpringLayout.EAST, lblSelectedCompany, -37, SpringLayout.WEST, btnEnter);
+		springLayout.putConstraint(SpringLayout.WEST, lblSelectedCompany, 6, SpringLayout.EAST, lblSelected);
+
+		springLayout.putConstraint(SpringLayout.NORTH, lblDescription, 0, SpringLayout.NORTH, lblName);
+		springLayout.putConstraint(SpringLayout.WEST, lblDescription, 240, SpringLayout.WEST, contentPane);
+		
+		springLayout.putConstraint(SpringLayout.NORTH, lblBarcode, 0, SpringLayout.NORTH, lblManufacturer);
+		springLayout.putConstraint(SpringLayout.WEST, lblBarcode, 0, SpringLayout.WEST, lblDescription);
+		
+		springLayout.putConstraint(SpringLayout.NORTH, nameField, -3, SpringLayout.NORTH, lblName);
+		springLayout.putConstraint(SpringLayout.EAST, nameField, -6, SpringLayout.WEST, lblDescription);
+		springLayout.putConstraint(SpringLayout.WEST, nameField, 11, SpringLayout.EAST, lblName);
+		
+		springLayout.putConstraint(SpringLayout.NORTH, descriptionField, -3, SpringLayout.NORTH, lblDescription);
+		springLayout.putConstraint(SpringLayout.EAST, descriptionField, 0, SpringLayout.EAST, btnEnter);
+		springLayout.putConstraint(SpringLayout.WEST, descriptionField, 6, SpringLayout.EAST, lblDescription);
+
+		springLayout.putConstraint(SpringLayout.NORTH, barcodeField, -3, SpringLayout.NORTH, lblManufacturer);
+		springLayout.putConstraint(SpringLayout.EAST, barcodeField, 0, SpringLayout.EAST, descriptionField);
+		springLayout.putConstraint(SpringLayout.WEST, barcodeField, 0, SpringLayout.WEST, descriptionField);
+		
+		springLayout.putConstraint(SpringLayout.NORTH, btnSelectCompany, -4, SpringLayout.NORTH, lblManufacturer);
+		springLayout.putConstraint(SpringLayout.WEST, btnSelectCompany, 6, SpringLayout.EAST, lblManufacturer);
+
+		springLayout.putConstraint(SpringLayout.SOUTH, btnEnter, -10, SpringLayout.SOUTH, contentPane);
+		springLayout.putConstraint(SpringLayout.EAST, btnEnter, -25, SpringLayout.EAST, contentPane);
+		
+		/**************************************
+		/  Sets the default button to enter	  /
+		/	  								  /
+		/*************************************/
+		getRootPane().setDefaultButton(btnEnter);
+	}
+	
+	/**
+	 * Updates the selected company label to show
+	 * the user selection
+	 * @param company
+	 */
+	protected static void updateSelected(Company company){
+		String companyName = company.getName().toString();
+		lblSelectedCompany.setText(companyName);
+	}
 }

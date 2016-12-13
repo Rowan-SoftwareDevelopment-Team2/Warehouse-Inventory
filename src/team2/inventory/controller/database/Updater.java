@@ -3,6 +3,8 @@ package team2.inventory.controller.database;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.util.Iterator;
+import java.util.Map;
 
 import team2.inventory.model.Barcode;
 import team2.inventory.model.Company;
@@ -46,6 +48,14 @@ public class Updater {
 	public static void moveInventory(Connection connection, Inventory inventory, Location location) throws SQLException {
 		inventory.setLocation(location);
 		update(connection, inventory);
+		Map<Integer, Inventory> children = Query.getInventoryByParent(connection, inventory.getId());
+		Iterator<Inventory> it = children.values().iterator();
+		Inventory i = null;
+		while(it.hasNext()){
+			i = it.next();
+			i.setLocation(location);
+			update(connection, i);
+		}
 	}
 	
 	/** Ships inventory today.
@@ -62,6 +72,15 @@ public class Updater {
 	 * @param shipped Date to ship on.
 	 * @throws SQLException Thrown on any SQL Error. */
 	public static void shipInventory(Connection connection, Inventory inventory, Date shipped) throws SQLException {
+		Map<Integer, Inventory> children = Query.getInventoryByParent(connection, inventory.getId());
+		Iterator<Inventory> it = children.values().iterator();
+		Inventory i = null;
+		while(it.hasNext()){
+			i = it.next();
+			i.setShipped(shipped);
+			i.setLocation(null);
+			update(connection, i);
+		}
 		inventory.setLocation(null);
 		inventory.setShipped(shipped);
 		update(connection, inventory);

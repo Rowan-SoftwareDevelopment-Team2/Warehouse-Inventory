@@ -1,7 +1,5 @@
-package team2.inventory.controller;
+package team2.inventory.view;
 
-import java.awt.Dimension;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedWriter;
@@ -13,6 +11,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import team2.inventory.controller.database.Connector;
@@ -32,34 +31,32 @@ public class ConfigGUI extends javax.swing.JFrame {
 		JPanel panel = new JPanel();
 		JLabel hostLabel = new JLabel("Host:");
 		JLabel portLabel = new JLabel("Port:");
-		JLabel databaseLabel = new JLabel("Database:");
+		JLabel tableLabel = new JLabel("Table:");
 		JLabel userLabel = new JLabel("Username:");
 		JLabel passLabel = new JLabel("Password:");
 		JTextField hostText = new JTextField(Connector.getDefaultHostname(), 20);
 		JTextField portText = new JTextField(Connector.getDefaultPort(), 5);
-		JTextField databaseText = new JTextField(20);
+		JTextField tableText = new JTextField(20);
 		JTextField userText = new JTextField(20);
-		JTextField passText = new JTextField(20);
+		JPasswordField passText = new JPasswordField(20);
 		
 		panel.add(hostLabel);
 		panel.add(hostText);
 		panel.add(portLabel);
 		panel.add(portText);
-		panel.add(databaseLabel);
-		panel.add(databaseText);
+		panel.add(tableLabel);
+		panel.add(tableText);
 		panel.add(userLabel);
 		panel.add(userText);
 		panel.add(passLabel);
 		panel.add(passText);
 		
 		JButton button = new JButton("Save");
-		button.addActionListener(new CustomButtonListener(hostText, portText, databaseText, userText, passText, file, this));
+		button.addActionListener(new CustomButtonListener(hostText, portText, tableText, userText, passText, file, this));
 		panel.add(button);
 		
 		add(panel);
 		pack();
-		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-		this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
 		setVisible(true);
 	}
 	
@@ -69,14 +66,15 @@ public class ConfigGUI extends javax.swing.JFrame {
 	
 	private class CustomButtonListener implements ActionListener {
 
-		private JTextField hostText, portText, databaseText, userText, passText;
+		private JTextField hostText, portText, tableText, userText;
+		private JPasswordField passText;
 		private File file;
 		private ConfigGUI configGUI;
 		
-		public CustomButtonListener(JTextField hostText, JTextField portText, JTextField databaseText, JTextField userText, JTextField passText, File file, ConfigGUI configGUI) {
+		public CustomButtonListener(JTextField hostText, JTextField portText, JTextField tableText, JTextField userText, JPasswordField passText, File file, ConfigGUI configGUI) {
 			this.hostText = hostText;
 			this.portText = portText;
-			this.databaseText = databaseText;
+			this.tableText = tableText;
 			this.userText = userText;
 			this.passText = passText;
 			this.file = file;
@@ -88,9 +86,9 @@ public class ConfigGUI extends javax.swing.JFrame {
 				BufferedWriter bw = new BufferedWriter(new FileWriter(file));
 				bw.write(hostText.getText() + "\n");
 				bw.write(portText.getText() + "\n");
-				bw.write(databaseText.getText() + "\n");
+				bw.write(tableText.getText() + "\n");
 				bw.write(userText.getText() + "\n");
-				bw.write(passText.getText());
+				bw.write(new String(passText.getPassword()));
 				bw.close();
 				done = true;
 				configGUI.dispose();

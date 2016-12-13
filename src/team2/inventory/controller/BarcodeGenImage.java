@@ -17,6 +17,7 @@ import com.itextpdf.text.pdf.Barcode128;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfWriter;
 
+import team2.inventory.StartupDriver;
 import team2.inventory.model.Inventory;
 
 public class BarcodeGenImage {

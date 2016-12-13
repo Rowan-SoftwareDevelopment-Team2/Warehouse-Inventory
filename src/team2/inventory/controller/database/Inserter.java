@@ -1,7 +1,11 @@
 package team2.inventory.controller.database;
 
+import java.awt.print.PrinterException;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+
+import javax.swing.JOptionPane;
 
 import team2.inventory.controller.BarcodeGenImage;
 import team2.inventory.model.Barcode;
@@ -85,6 +89,11 @@ public class Inserter {
 			// Update database with new barcode.
 			inventory.setBarcode(barcode);
 			Updater.update(connection, inventory);
+			try {
+				BarcodeGenImage.printBarcode(inventory);
+			} catch (IOException | PrinterException e) {
+				JOptionPane.showMessageDialog(null, "Printer error", "Printer error", JOptionPane.ERROR_MESSAGE);
+			}
 		}
 	}
 
